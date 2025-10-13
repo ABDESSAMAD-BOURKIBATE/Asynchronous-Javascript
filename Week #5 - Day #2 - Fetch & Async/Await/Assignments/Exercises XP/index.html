@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch API & Async/Await Exercises</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8fafc;
+            line-height: 1.6;
+            color: #334155;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 24px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+            color: white;
+            padding: 40px 32px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.025em;
+        }
+
+        .header-badge {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 12px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 16px;
+            font-weight: 400;
+            margin-top: 8px;
+        }
+
+        .main-content {
+            padding: 32px;
+        }
+
+        .exercise-section {
+            background: #ffffff;
+            margin: 24px 0;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .exercise-1 { border-left: 4px solid #3b82f6; }
+        .exercise-2 { border-left: 4px solid #10b981; }
+        .exercise-3 { border-left: 4px solid #f59e0b; }
+        .exercise-4 { border-left: 4px solid #ef4444; }
+
+        h2 {
+            color: #1e293b;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: -0.025em;
+        }
+
+        .exercise-description {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .exercise-description h4 {
+            color: #374151;
+            margin-bottom: 12px;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .exercise-description p {
+            color: #4b5563;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: inherit;
+            margin: 8px 4px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-success {
+            background: #10b981;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-danger {
+            background: #ef4444;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .output {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            margin: 16px 0;
+            min-height: 150px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #334155;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .info-box {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #e0f2fe;
+        }
+
+        .api-demo {
+            background: #fefce8;
+            border: 1px solid #fef3c7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .api-demo h4 {
+            color: #92400e;
+            margin-bottom: 12px;
+        }
+
+        .api-url {
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            word-break: break-all;
+            border: 1px solid #d1d5db;
+            margin: 8px 0;
+        }
+
+        .parameter-list {
+            margin: 12px 0;
+        }
+
+        .parameter-list li {
+            margin: 6px 0;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-success { background-color: #22c55e; }
+        .status-error { background-color: #ef4444; }
+        .status-warning { background-color: #f59e0b; }
+        .status-info { background-color: #3b82f6; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 32px 20px;
+            }
+        }
+
+        .comparison-box {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 16px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            margin: 12px 0;
+            border: 1px solid #1e293b;
+            overflow-x: auto;
+        }
+
+        .analysis-result {
+            background: #ecfdf5;
+            border: 1px solid #d1fae5;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Fetch API & Async/Await Exercises</h1>
+            <div class="header-badge">Week #5 - Day #2</div>
+            <p class="subtitle">Duration: > 1 hour | Advanced API Interaction</p>
+        </div>
+
+        <div class="main-content">
+            <div class="info-box">
+                <h3>Learning Objectives</h3>
+                <p><strong>Fetch API:</strong> Master HTTP requests and response handling</p>
+                <p><strong>Async/Await:</strong> Convert Promise chains to cleaner async syntax</p>
+                <p><strong>Error Handling:</strong> Implement robust error management patterns</p>
+                <p><strong>API Integration:</strong> Work with real-world APIs (Giphy, Star Wars)</p>
+            </div>
+
+            <!-- Exercise 1 -->
+            <div class="exercise-section exercise-1">
+                <h2>Exercise 1: Giphy API Basic Search</h2>
+                
+                <div class="exercise-description">
+                    <h4>Objective</h4>
+                    <p>Use fetch() to retrieve data from Giphy API and handle responses properly</p>
+                    
+                    <div class="api-demo">
+                        <h4>API Endpoint</h4>
+                        <div class="api-url">https://api.giphy.com/v1/gifs/search?q=hilarious&rating=g&api_key=hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My</div>
+                        
+                        <h4>Query Parameters</h4>
+                        <ul class="parameter-list">
+                            <li><strong>q:</strong> "hilarious" (search term)</li>
+                            <li><strong>rating:</strong> "g" (General Audiences)</li>
+                            <li><strong>api_key:</strong> Provided API key</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <button class="btn" onclick="runExercise1()">Fetch Hilarious GIFs</button>
+                    <button class="btn btn-danger" onclick="clearOutput('output1')">Clear Output</button>
+                </div>
+
+                <div id="output1" class="output"></div>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise-section exercise-2">
+                <h2>Exercise 2: Giphy API Advanced Parameters</h2>
+                
+                <div class="exercise-description">
+                    <h4>Objective</h4>
+                    <p>Retrieve 10 GIFs about "sun" starting from position 2 (offset)</p>
+                    
+                    <div class="api-demo">
+                        <h4>Required Parameters</h4>
+                        <ul class="parameter-list">
+                            <li><strong>q:</strong> "sun" (search term)</li>
+                            <li><strong>limit:</strong> 10 (number of results)</li>
+                            <li><strong>offset:</strong> 2 (starting position)</li>
+                            <li><strong>rating:</strong> "g" (General Audiences)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <button class="btn btn-success" onclick="runExercise2()">Search Sun GIFs</button>
+                    <button class="btn btn-danger" onclick="clearOutput('output2')">Clear Output</button>
+                </div>
+
+                <div id="output2" class="output"></div>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise-section exercise-3">
+                <h2>Exercise 3: Async/Await Conversion</h2>
+                
+                <div class="exercise-description">
+                    <h4>Objective</h4>
+                    <p>Convert Promise-based Star Wars API call to async/await syntax</p>
+                    
+                    <div class="comparison-box">
+                        <h4>Original Promise Code:</h4>
+                        <div class="code-block">fetch("https://www.swapi.tech/api/starships/9/")
+    .then(response => response.json())
+    .then(objectStarWars => console.log(objectStarWars.result));</div>
+                        
+                        <h4>Improved Async/Await Version:</h4>
+                        <div class="code-block">async function getStarship() {
+    try {
+        const response = await fetch("https://www.swapi.tech/api/starships/9/");
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        console.log(data.result);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}</div>
+                    </div>
+                </div>
+
+                <div>
+                    <button class="btn btn-warning" onclick="runExercise3Promise()">Run Promise Version</button>
+                    <button class="btn btn-warning" onclick="runExercise3Async()">Run Async/Await Version</button>
+                    <button class="btn btn-danger" onclick="clearOutput('output3')">Clear Output</button>
+                </div>
+
+                <div id="output3" class="output"></div>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise-section exercise-4">
+                <h2>Exercise 4: Async Function Analysis</h2>
+                
+                <div class="exercise-description">
+                    <h4>Objective</h4>
+                    <p>Analyze the execution order and timing of async functions</p>
+                    
+                    <div class="code-block">function resolveAfter2Seconds() {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve('resolved');
+        }, 2000);
+    });
+}
+
+async function asyncCall() {
+    console.log('calling');
+    let result = await resolveAfter2Seconds();
+    console.log(result);
+}
+
+asyncCall();</div>
+                    
+                    <div class="analysis-result">
+                        <h4>Expected Output Analysis:</h4>
+                        <ol>
+                            <li>Immediately: "calling"</li>
+                            <li>After 2 seconds: "resolved"</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div>
+                    <button class="btn btn-danger" onclick="runExercise4()">Analyze & Execute</button>
+                    <button class="btn btn-danger" onclick="clearOutput('output4')">Clear Output</button>
+                </div>
+
+                <div id="output4" class="output"></div>
+            </div>
+
+            <!-- Master Controls -->
+            <div class="exercise-section">
+                <h2>Master Controls</h2>
+                <button class="btn btn-success" onclick="runAllExercises()">Run All Exercises</button>
+                <button class="btn btn-warning" onclick="showSummary()">Show Summary</button>
+                <button class="btn btn-danger" onclick="clearAllOutputs()">Clear All Outputs</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===============================================
+        // FETCH API & ASYNC/AWAIT FUNCTIONS
+        // ===============================================
+
+        // Utility function to append output
+        function appendOutput(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            
+            let prefix = '', className = '';
+            switch(type) {
+                case 'success': prefix = '[SUCCESS]'; className = 'status-success'; break;
+                case 'error': prefix = '[ERROR]'; className = 'status-error'; break;
+                case 'warning': prefix = '[WARNING]'; className = 'status-warning'; break;
+                default: prefix = '[INFO]'; className = 'status-info'; break;
+            }
+            
+            element.innerHTML += `
+                <div style="margin: 6px 0; padding: 4px; font-size: 13px;">
+                    <span class="status-indicator ${className}"></span>
+                    ${prefix} [${timestamp}] ${message}
+                </div>`;
+            element.scrollTop = element.scrollHeight;
+        }
+
+        function clearOutput(elementId) {
+            document.getElementById(elementId).innerHTML = '';
+        }
+
+        // ===============================================
+        // EXERCISE 1: GIPHY API BASIC
+        // ===============================================
+
+        function runExercise1() {
+            clearOutput('output1');
+            appendOutput('output1', 'Starting Exercise 1: Giphy API Basic Search', 'info');
+            
+            const giphyUrl = "https://api.giphy.com/v1/gifs/search?q=hilarious&rating=g&api_key=hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My";
+            
+            appendOutput('output1', 'Fetching hilarious GIFs from Giphy API...', 'info');
+            appendOutput('output1', `URL: ${giphyUrl}`, 'info');
+            
+            fetch(giphyUrl)
+                .then(response => {
+                    appendOutput('output1', `Response received - Status: ${response.status}`, 'info');
+                    appendOutput('output1', `Status Text: ${response.statusText}`, 'info');
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    return response.json();
+                })
+                .then(data => {
+                    appendOutput('output1', 'Data retrieved successfully from Giphy API', 'success');
+                    appendOutput('output1', `Total results found: ${data.pagination?.total_count || 'Unknown'}`, 'info');
+                    appendOutput('output1', `Results returned: ${data.data?.length || 0}`, 'info');
+                    
+                    if (data.data && data.data.length > 0) {
+                        appendOutput('output1', `First GIF: "${data.data[0].title}"`, 'info');
+                    }
+                    
+                    appendOutput('output1', 'Full JavaScript Object:', 'info');
+                    appendOutput('output1', JSON.stringify(data, null, 2), 'info');
+                })
+                .catch(error => {
+                    appendOutput('output1', `Error occurred: ${error.message}`, 'error');
+                    if (error.message.includes('Failed to fetch')) {
+                        appendOutput('output1', 'Network error: Check internet connection', 'error');
+                    }
+                });
+        }
+
+        // ===============================================
+        // EXERCISE 2: GIPHY API ADVANCED
+        // ===============================================
+
+        function runExercise2() {
+            clearOutput('output2');
+            appendOutput('output2', 'Starting Exercise 2: Giphy API Advanced Search', 'info');
+            
+            const baseUrl = "https://api.giphy.com/v1/gifs/search";
+            const params = new URLSearchParams({
+                q: "sun",
+                limit: "10",
+                offset: "2",
+                rating: "g",
+                api_key: "hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My"
+            });
+            
+            const fullUrl = `${baseUrl}?${params.toString()}`;
+            
+            appendOutput('output2', 'Search parameters:', 'info');
+            appendOutput('output2', '- Search term: sun', 'info');
+            appendOutput('output2', '- Limit: 10 results', 'info');
+            appendOutput('output2', '- Offset: 2 (skip first 2)', 'info');
+            appendOutput('output2', '- Rating: g (General)', 'info');
+            appendOutput('output2', `Full URL: ${fullUrl}`, 'info');
+            
+            fetch(fullUrl)
+                .then(response => {
+                    appendOutput('output2', `Response Status: ${response.status} (${response.ok ? 'OK' : 'Error'})`, 
+                               response.ok ? 'success' : 'error');
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    return response.json();
+                })
+                .then(data => {
+                    appendOutput('output2', 'Advanced search completed successfully', 'success');
+                    appendOutput('output2', `Pagination - Count: ${data.pagination?.count}, Offset: ${data.pagination?.offset}`, 'info');
+                    appendOutput('output2', `Total available: ${data.pagination?.total_count}`, 'info');
+                    
+                    if (data.data && data.data.length > 0) {
+                        appendOutput('output2', 'First few GIF titles:', 'info');
+                        data.data.slice(0, 3).forEach((gif, index) => {
+                            appendOutput('output2', `${index + 1}. ${gif.title}`, 'info');
+                        });
+                    }
+                    
+                    appendOutput('output2', 'Complete response object:', 'info');
+                    appendOutput('output2', JSON.stringify(data, null, 2), 'info');
+                })
+                .catch(error => {
+                    appendOutput('output2', `Error in advanced search: ${error.message}`, 'error');
+                    
+                    if (error.message.includes('HTTP')) {
+                        appendOutput('output2', 'API error: Check API key and parameters', 'error');
+                    }
+                });
+        }
+
+        // ===============================================
+        // EXERCISE 3: ASYNC/AWAIT CONVERSION
+        // ===============================================
+
+        function runExercise3Promise() {
+            clearOutput('output3');
+            appendOutput('output3', 'Running Exercise 3: Promise-based approach', 'info');
+            
+            appendOutput('output3', 'Fetching Star Wars starship data (Promise style)...', 'info');
+            
+            fetch("https://www.swapi.tech/api/starships/9/")
+                .then(response => {
+                    appendOutput('output3', `Response status: ${response.status}`, 'info');
+                    return response.json();
+                })
+                .then(objectStarWars => {
+                    appendOutput('output3', 'Promise approach completed', 'success');
+                    appendOutput('output3', 'Starship result:', 'info');
+                    appendOutput('output3', JSON.stringify(objectStarWars.result, null, 2), 'success');
+                })
+                .catch(error => {
+                    appendOutput('output3', `Promise error: ${error.message}`, 'error');
+                });
+        }
+
+        async function runExercise3Async() {
+            if (!document.getElementById('output3').innerHTML) {
+                clearOutput('output3');
+            }
+            
+            appendOutput('output3', 'Running Exercise 3: Async/Await approach', 'info');
+            
+            try {
+                appendOutput('output3', 'Fetching Star Wars starship data (async/await style)...', 'info');
+                
+                const response = await fetch("https://www.swapi.tech/api/starships/9/");
+                
+                appendOutput('output3', `Response status: ${response.status} (${response.ok ? 'OK' : 'Error'})`, 
+                           response.ok ? 'info' : 'error');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const objectStarWars = await response.json();
+                
+                appendOutput('output3', 'Async/await approach completed', 'success');
+                appendOutput('output3', 'Starship details:', 'info');
+                appendOutput('output3', `Name: ${objectStarWars.result?.properties?.name || 'Unknown'}`, 'info');
+                appendOutput('output3', `Model: ${objectStarWars.result?.properties?.model || 'Unknown'}`, 'info');
+                appendOutput('output3', 'Complete result object:', 'info');
+                appendOutput('output3', JSON.stringify(objectStarWars.result, null, 2), 'success');
+                
+            } catch (error) {
+                appendOutput('output3', `Async/await error: ${error.message}`, 'error');
+                
+                if (error.message.includes('Failed to fetch')) {
+                    appendOutput('output3', 'Network issue: Check internet connection or CORS policy', 'error');
+                }
+            }
+        }
+
+        // ===============================================
+        // EXERCISE 4: CODE ANALYSIS
+        // ===============================================
+
+        function resolveAfter2Seconds() {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve('resolved');
+                }, 2000);
+            });
+        }
+
+        async function asyncCall(outputCallback) {
+            outputCallback('calling', 'info');
+            let result = await resolveAfter2Seconds();
+            outputCallback(result, 'success');
+        }
+
+        function runExercise4() {
+            clearOutput('output4');
+            appendOutput('output4', 'Starting Exercise 4: Async Function Analysis', 'info');
+            
+            appendOutput('output4', 'Code Analysis:', 'info');
+            appendOutput('output4', '1. resolveAfter2Seconds() returns Promise that resolves after 2s', 'info');
+            appendOutput('output4', '2. asyncCall() logs "calling" immediately, then waits 2s', 'info');
+            appendOutput('output4', '3. After 2s, it logs "resolved"', 'info');
+            appendOutput('output4', '', 'info');
+            
+            const startTime = Date.now();
+            appendOutput('output4', `Execution started at: ${new Date().toLocaleTimeString()}`, 'info');
+            appendOutput('output4', 'Expected: "calling" now, then "resolved" after 2s', 'warning');
+            appendOutput('output4', '', 'info');
+            
+            // Create callback to append to output
+            const outputCallback = (message, type) => {
+                appendOutput('output4', `Async function output: ${message}`, type);
+            };
+            
+            asyncCall(outputCallback).then(() => {
+                const endTime = Date.now();
+                const duration = endTime - startTime;
+                appendOutput('output4', `Execution completed at: ${new Date().toLocaleTimeString()}`, 'info');
+                appendOutput('output4', `Total execution time: ${duration}ms (~2000ms expected)`, 'success');
+                appendOutput('output4', '', 'info');
+                appendOutput('output4', 'Analysis Result: Code executed as predicted!', 'success');
+                appendOutput('output4', '- "calling" was logged immediately', 'success');
+                appendOutput('output4', '- "resolved" was logged after ~2 seconds', 'success');
+                appendOutput('output4', '- await paused execution until Promise resolved', 'success');
+            });
+        }
+
+        // ===============================================
+        // MASTER CONTROLS
+        // ===============================================
+
+        function runAllExercises() {
+            clearAllOutputs();
+            
+            // Run exercises with staggered timing
+            appendOutput('output1', 'Starting all exercises in sequence...', 'warning');
+            runExercise1();
+            
+            setTimeout(() => runExercise2(), 2000);
+            setTimeout(() => runExercise3Promise(), 4000);
+            setTimeout(() => runExercise3Async(), 6000);
+            setTimeout(() => runExercise4(), 8000);
+        }
+
+        function showSummary() {
+            clearAllOutputs();
+            
+            const summary = `
+Fetch API & Async/Await Exercises Summary:
+
+Exercise 1: Giphy API Basic Search
+• Used fetch() to retrieve "hilarious" GIFs
+• Implemented proper response status checking
+• Added comprehensive error handling
+
+Exercise 2: Giphy API Advanced Parameters
+• Constructed URL with multiple query parameters
+• Retrieved 10 "sun" GIFs starting from position 2
+• Demonstrated URLSearchParams usage
+
+Exercise 3: Async/Await Conversion
+• Converted Promise chains to async/await syntax
+• Improved error handling with try/catch
+• Compared both approaches side by side
+
+Exercise 4: Async Function Analysis
+• Analyzed execution timing and order
+• Demonstrated Promise resolution behavior
+• Verified 2-second delay timing
+
+Key Skills Demonstrated:
+• Fetch API mastery for HTTP requests
+• Response status validation and error handling
+• URL parameter construction and management
+• Promise-to-async/await conversion
+• Execution flow analysis in async functions
+• Real-world API integration patterns
+
+Duration: > 1 hour completed successfully
+            `;
+            
+            appendOutput('output1', summary, 'success');
+            appendOutput('output2', 'See Exercise 1 output for complete summary', 'info');
+            appendOutput('output3', 'See Exercise 1 output for complete summary', 'info');
+            appendOutput('output4', 'See Exercise 1 output for complete summary', 'info');
+        }
+
+        function clearAllOutputs() {
+            ['output1', 'output2', 'output3', 'output4'].forEach(id => {
+                clearOutput(id);
+            });
+        }
+
+        // Initialize page
+        window.onload = function() {
+            console.log('Fetch API & Async/Await Exercises - Ready!');
+            appendOutput('output1', 'Ready for Giphy API basic search', 'info');
+            appendOutput('output2', 'Ready for Giphy API advanced search', 'info');
+            appendOutput('output3', 'Ready for async/await conversion', 'info');
+            appendOutput('output4', 'Ready for async function analysis', 'info');
+        }
+    </script>
+</body>
+</html>

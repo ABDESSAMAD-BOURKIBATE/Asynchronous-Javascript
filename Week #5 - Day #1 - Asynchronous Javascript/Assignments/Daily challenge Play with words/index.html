@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Challenge: Advanced Promise Chaining</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8fafc;
+            line-height: 1.6;
+            color: #334155;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 24px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+            color: white;
+            padding: 40px 32px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.025em;
+        }
+
+        .difficulty-badge {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 12px;
+        }
+
+        .main-content {
+            padding: 32px;
+        }
+
+        .challenge-section {
+            background: #ffffff;
+            margin: 24px 0;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .challenge-1 {
+            border-left: 4px solid #3b82f6;
+        }
+
+        .challenge-2 {
+            border-left: 4px solid #10b981;
+        }
+
+        h2 {
+            color: #1e293b;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: -0.025em;
+        }
+
+        .input-group {
+            margin: 20px 0;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            background: #ffffff;
+        }
+
+        input[type="text"]:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: inherit;
+            margin: 8px 4px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-success {
+            background: #10b981;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-danger {
+            background: #ef4444;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .output {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            margin: 16px 0;
+            min-height: 150px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #334155;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .morse-display {
+            background: #0f172a;
+            color: #22d3ee;
+            padding: 24px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            font-size: 20px;
+            line-height: 1.6;
+            margin: 20px 0;
+            border: 1px solid #1e293b;
+            text-align: center;
+            min-height: 100px;
+        }
+
+        .info-box {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #e0f2fe;
+        }
+
+        .success-box {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 12px 0;
+            border: 1px solid #dcfce7;
+        }
+
+        .error-box {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 12px 0;
+            border: 1px solid #fecaca;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 32px 20px;
+            }
+        }
+
+        .examples {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .examples h4 {
+            color: #374151;
+            margin-bottom: 16px;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .example-item {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin: 8px 0;
+            border-left: 3px solid #3b82f6;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-success { background-color: #22c55e; }
+        .status-error { background-color: #ef4444; }
+        .status-warning { background-color: #f59e0b; }
+        .status-info { background-color: #3b82f6; }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .pulse { animation: pulse 2s infinite; }
+        
+        .subtitle {
+            color: #94a3b8;
+            font-size: 16px;
+            font-weight: 400;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Daily Challenge: Advanced Promise Chaining</h1>
+            <div class="difficulty-badge">Advanced Level</div>
+            <p class="subtitle">Duration: > 1h15m | Week #5 - Day #1</p>
+        </div>
+
+        <div class="main-content">
+            <div class="info-box">
+                <h3>Challenge Overview</h3>
+                <p><strong>Challenge 1:</strong> Word processing with promise validation and transformation</p>
+                <p><strong>Challenge 2:</strong> Morse code translator with complete promise chain</p>
+                <p><strong>Focus:</strong> Advanced promise chaining, error handling, and DOM manipulation</p>
+            </div>
+
+            <div class="grid">
+                <!-- Challenge 1 -->
+                <div class="challenge-section challenge-1">
+                    <h2>Challenge 1: Word Processing</h2>
+                    
+                    <div class="input-group">
+                        <label for="wordsInput">Enter words (comma separated):</label>
+                        <input type="text" id="wordsInput" placeholder="apple, pear, banana, melon, kiwi" 
+                               value="apple, pear, banana, melon, kiwi">
+                    </div>
+
+                    <div>
+                        <button class="btn" onclick="runChallenge1()">Process Words</button>
+                        <button class="btn btn-warning" onclick="testChallenge1Examples()">Test Examples</button>
+                        <button class="btn btn-danger" onclick="clearOutput('output1')">Clear</button>
+                    </div>
+
+                    <div class="examples">
+                        <h4>Test Cases:</h4>
+                        <div class="example-item">Valid: "apple, pear, banana, melon, kiwi" (length > 4, all strings)</div>
+                        <div class="example-item">Invalid: "1, pear, banana" (contains number)</div>
+                        <div class="example-item">Invalid: "apple, pear, banana" (length ≤ 4)</div>
+                    </div>
+
+                    <div id="output1" class="output"></div>
+                </div>
+
+                <!-- Challenge 2 -->
+                <div class="challenge-section challenge-2">
+                    <h2>Challenge 2: Morse Code Translator</h2>
+                    
+                    <div class="input-group">
+                        <label for="textInput">Enter text to translate:</label>
+                        <input type="text" id="textInput" placeholder="Hello World!" value="Hello">
+                    </div>
+
+                    <div>
+                        <button class="btn btn-success" onclick="runChallenge2()">Translate to Morse</button>
+                        <button class="btn btn-warning" onclick="testMorseExamples()">Test Examples</button>
+                        <button class="btn btn-danger" onclick="clearMorseDisplay()">Clear</button>
+                    </div>
+
+                    <div class="examples">
+                        <h4>Test Cases:</h4>
+                        <div class="example-item">"Hello" → Valid morse translation</div>
+                        <div class="example-item">"Hello World!" → With punctuation</div>
+                        <div class="example-item">"¡Hola!" → Invalid character "¡"</div>
+                    </div>
+
+                    <div id="output2" class="output"></div>
+                    <div id="morseDisplay" class="morse-display">
+                        <em>Morse code will appear here...</em>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="challenge-section">
+                <h2>Master Controls</h2>
+                <button class="btn btn-success" onclick="runAllChallenges()">Run All Challenges</button>
+                <button class="btn btn-warning" onclick="showSummary()">Show Summary</button>
+                <button class="btn btn-danger" onclick="clearAllOutputs()">Clear Everything</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===============================================
+        // CHALLENGE 1: WORD PROCESSING FUNCTIONS
+        // ===============================================
+
+        function makeAllCaps(wordsArray) {
+            return new Promise((resolve, reject) => {
+                if (!Array.isArray(wordsArray)) {
+                    reject("Input must be an array");
+                    return;
+                }
+                
+                const allStrings = wordsArray.every(word => typeof word === 'string');
+                
+                if (allStrings) {
+                    const upperCaseArray = wordsArray.map(word => word.toUpperCase());
+                    resolve(upperCaseArray);
+                } else {
+                    reject("Array must contain only strings");
+                }
+            });
+        }
+
+        function sortWords(wordsArray) {
+            return new Promise((resolve, reject) => {
+                if (!Array.isArray(wordsArray)) {
+                    reject("Input must be an array");
+                    return;
+                }
+                
+                if (wordsArray.length > 4) {
+                    const sortedArray = wordsArray.slice().sort();
+                    resolve(sortedArray);
+                } else {
+                    reject("Array length must be bigger than 4");
+                }
+            });
+        }
+
+        // ===============================================
+        // CHALLENGE 2: MORSE CODE FUNCTIONS
+        // ===============================================
+
+        const morse = `{
+          "0": "-----", "1": ".----", "2": "..---", "3": "...--", "4": "....-",
+          "5": ".....", "6": "-....", "7": "--...", "8": "---..", "9": "----.",
+          "a": ".-", "b": "-...", "c": "-.-.", "d": "-..", "e": ".", "f": "..-.",
+          "g": "--.", "h": "....", "i": "..", "j": ".---", "k": "-.-", "l": ".-..",
+          "m": "--", "n": "-.", "o": "---", "p": ".--.", "q": "--.-", "r": ".-.",
+          "s": "...", "t": "-", "u": "..-", "v": "...-", "w": ".--", "x": "-..-",
+          "y": "-.--", "z": "--..", ".": ".-.-.-", ",": "--..--", "?": "..--..",
+          "!": "-.-.--", "-": "-....-", "/": "-..-.", "@": ".--.-.", "(": "-.--.",
+          ")": "-.--.-"
+        }`;
+
+        function toJs() {
+            return new Promise((resolve, reject) => {
+                try {
+                    const morseObject = JSON.parse(morse);
+                    if (Object.keys(morseObject).length === 0) {
+                        reject("Morse object is empty");
+                    } else {
+                        resolve(morseObject);
+                    }
+                } catch (error) {
+                    reject(`Failed to parse morse JSON: ${error.message}`);
+                }
+            });
+        }
+
+        function toMorse(morseJS, userInput) {
+            return new Promise((resolve, reject) => {
+                const morseTranslation = [];
+                const lowerInput = userInput.toLowerCase();
+                
+                for (let i = 0; i < lowerInput.length; i++) {
+                    const char = lowerInput[i];
+                    
+                    if (char === ' ') {
+                        morseTranslation.push('/'); // Use / for space separation
+                        continue;
+                    }
+                    
+                    if (morseJS[char]) {
+                        morseTranslation.push(morseJS[char]);
+                    } else {
+                        reject(`Character "${char}" doesn't exist in morse code mapping`);
+                        return;
+                    }
+                }
+                
+                resolve(morseTranslation);
+            });
+        }
+
+        function joinWords(morseTranslation) {
+            return new Promise((resolve) => {
+                // Update DOM display
+                const morseDisplay = document.getElementById('morseDisplay');
+                const morseText = morseTranslation.join('\n');
+                morseDisplay.innerHTML = morseText.replace(/\//g, '<br><br>'); // Handle word spaces
+                resolve(morseText);
+            });
+        }
+
+        // ===============================================
+        // UTILITY FUNCTIONS
+        // ===============================================
+
+        function appendOutput(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            
+            let prefix = '', className = '';
+            switch(type) {
+                case 'success': prefix = '[SUCCESS]'; className = 'status-success'; break;
+                case 'error': prefix = '[ERROR]'; className = 'status-error'; break;
+                case 'warning': prefix = '[WARNING]'; className = 'status-warning'; break;
+                default: prefix = '[INFO]'; className = 'status-info'; break;
+            }
+            
+            element.innerHTML += `
+                <div style="margin: 6px 0; padding: 4px; font-size: 13px;">
+                    <span class="status-indicator ${className}"></span>
+                    ${prefix} [${timestamp}] ${message}
+                </div>`;
+            element.scrollTop = element.scrollHeight;
+        }
+
+        function clearOutput(elementId) {
+            document.getElementById(elementId).innerHTML = '';
+        }
+
+        // ===============================================
+        // CHALLENGE 1 EXECUTION
+        // ===============================================
+
+        function runChallenge1() {
+            const input = document.getElementById('wordsInput').value;
+            const wordsArray = input.split(',').map(word => word.trim());
+            
+            clearOutput('output1');
+            appendOutput('output1', 'Starting Challenge 1: Word Processing', 'info');
+            appendOutput('output1', `Input: [${wordsArray.join(', ')}]`, 'info');
+            
+            makeAllCaps(wordsArray)
+                .then((uppercaseArray) => {
+                    appendOutput('output1', `makeAllCaps succeeded: [${uppercaseArray.join(', ')}]`, 'success');
+                    return sortWords(uppercaseArray);
+                })
+                .then((sortedArray) => {
+                    appendOutput('output1', `sortWords succeeded: [${sortedArray.join(', ')}]`, 'success');
+                    appendOutput('output1', 'Challenge 1 completed successfully!', 'success');
+                })
+                .catch(error => {
+                    appendOutput('output1', `Error: ${error}`, 'error');
+                });
+        }
+
+        function testChallenge1Examples() {
+            clearOutput('output1');
+            appendOutput('output1', '📋 Running all Challenge 1 test cases...', 'warning');
+            
+            // Test 1: Contains number
+            setTimeout(() => {
+                appendOutput('output1', '\n--- Test 1: Array with number ---', 'info');
+                makeAllCaps([1, "pear", "banana"])
+                    .then((arr) => sortWords(arr))
+                    .then((result) => appendOutput('output1', `Result: ${result}`, 'success'))
+                    .catch(error => appendOutput('output1', `Expected error: ${error}`, 'warning'));
+            }, 500);
+            
+            // Test 2: Length <= 4
+            setTimeout(() => {
+                appendOutput('output1', '\n--- Test 2: Array length ≤ 4 ---', 'info');
+                makeAllCaps(["apple", "pear", "banana"])
+                    .then((arr) => sortWords(arr))
+                    .then((result) => appendOutput('output1', `Result: ${result}`, 'success'))
+                    .catch(error => appendOutput('output1', `Expected error: ${error}`, 'warning'));
+            }, 1000);
+            
+            // Test 3: Valid case
+            setTimeout(() => {
+                appendOutput('output1', '\n--- Test 3: Valid case ---', 'info');
+                makeAllCaps(["apple", "pear", "banana", "melon", "kiwi"])
+                    .then((arr) => sortWords(arr))
+                    .then((result) => appendOutput('output1', `✅ Success: [${result.join(', ')}]`, 'success'))
+                    .catch(error => appendOutput('output1', `Error: ${error}`, 'error'));
+            }, 1500);
+        }
+
+        // ===============================================
+        // CHALLENGE 2 EXECUTION
+        // ===============================================
+
+        function runChallenge2() {
+            const input = document.getElementById('textInput').value;
+            
+            clearOutput('output2');
+            appendOutput('output2', 'Starting Challenge 2: Morse Code Translation', 'info');
+            appendOutput('output2', `Input text: "${input}"`, 'info');
+            
+            toJs()
+                .then((morseObject) => {
+                    appendOutput('output2', 'Morse object created successfully', 'success');
+                    return toMorse(morseObject, input);
+                })
+                .then((morseArray) => {
+                    appendOutput('output2', `Translation successful: ${morseArray.length} morse codes`, 'success');
+                    appendOutput('output2', `Morse array: [${morseArray.join(', ')}]`, 'info');
+                    return joinWords(morseArray);
+                })
+                .then((result) => {
+                    appendOutput('output2', 'Morse code displayed on page!', 'success');
+                    appendOutput('output2', 'Challenge 2 completed successfully!', 'success');
+                })
+                .catch(error => {
+                    appendOutput('output2', `Error: ${error}`, 'error');
+                });
+        }
+
+        function testMorseExamples() {
+            clearOutput('output2');
+            document.getElementById('morseDisplay').innerHTML = '<em>Running test examples...</em>';
+            
+            const examples = [
+                { text: "Hello", shouldSucceed: true },
+                { text: "Hello World!", shouldSucceed: true },
+                { text: "¡Hola!", shouldSucceed: false }
+            ];
+            
+            appendOutput('output2', '📋 Running Morse Code test examples...', 'warning');
+            
+            examples.forEach((example, index) => {
+                setTimeout(() => {
+                    appendOutput('output2', `\n--- Test ${index + 1}: "${example.text}" ---`, 'info');
+                    
+                    toJs()
+                        .then((morseObject) => toMorse(morseObject, example.text))
+                        .then((morseArray) => {
+                            appendOutput('output2', `✅ Success: [${morseArray.join(', ')}]`, 'success');
+                            if (index === examples.length - 1) {
+                                return joinWords(morseArray);
+                            }
+                        })
+                        .catch(error => {
+                            const type = example.shouldSucceed ? 'error' : 'warning';
+                            appendOutput('output2', `Expected result: ${error}`, type);
+                        });
+                }, (index + 1) * 1000);
+            });
+        }
+
+        function clearMorseDisplay() {
+            document.getElementById('morseDisplay').innerHTML = '<em>Morse code will appear here...</em>';
+            clearOutput('output2');
+        }
+
+        // ===============================================
+        // MASTER CONTROLS
+        // ===============================================
+
+        function runAllChallenges() {
+            clearAllOutputs();
+            appendOutput('output1', '🚀 Running all challenges...', 'warning');
+            appendOutput('output2', '🚀 Running all challenges...', 'warning');
+            
+            // Run Challenge 1 with default values
+            setTimeout(() => runChallenge1(), 500);
+            
+            // Run Challenge 2 with default values  
+            setTimeout(() => runChallenge2(), 2000);
+        }
+
+        function showSummary() {
+            clearAllOutputs();
+            
+            const summary = `
+Daily Challenge Summary:
+
+Challenge 1: Word Processing
+• makeAllCaps(): Validates and converts to uppercase
+• sortWords(): Sorts arrays with length > 4  
+• Promise chaining with error handling
+
+Challenge 2: Morse Code Translator
+• toJs(): JSON to JavaScript object conversion
+• toMorse(): Text to morse code translation
+• joinWords(): DOM display with line breaks
+• Complete promise chain implementation
+
+Key Skills Demonstrated:
+• Advanced promise chaining
+• Comprehensive error handling  
+• Input validation and processing
+• DOM manipulation with promises
+• Real-world application development
+
+Completion Time: > 1h15m
+Difficulty: Advanced Promise Chaining
+            `;
+            
+            appendOutput('output1', summary, 'success');
+            appendOutput('output2', 'See Challenge 1 output for complete summary', 'info');
+        }
+
+        function clearAllOutputs() {
+            clearOutput('output1');
+            clearOutput('output2');
+            clearMorseDisplay();
+        }
+
+        // Initialize page
+        window.onload = function() {
+            console.log('Daily Challenge: Advanced Promise Chaining - Ready!');
+            appendOutput('output1', 'Ready to process words', 'info');
+            appendOutput('output2', 'Ready to translate morse code', 'info');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week #5 - Day #1 - Asynchronous Javascript Exercises</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: #4CAF50;
+            margin-top: 30px;
+        }
+        
+        .exercise-section {
+            margin: 20px 0;
+            padding: 20px;
+            border-left: 4px solid #4CAF50;
+            background-color: #f9f9f9;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        .output {
+            background-color: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            min-height: 100px;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        
+        .instructions {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .note {
+            background-color: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Asynchronous Javascript - Promises Exercises</h1>
+        
+        <div class="note">
+            <strong>📝 Instructions:</strong> Click on each exercise button to run the code. Check the console output below and in your browser's developer tools (F12).
+        </div>
+
+        <!-- Exercise 1 -->
+        <div class="exercise-section">
+            <h2>🌟 Exercise 1: Comparison</h2>
+            <div class="instructions">
+                <strong>Goal:</strong> Create a function called compareToTen(num) that returns a Promise:
+                <ul>
+                    <li>Resolves if the argument is ≤ 10</li>
+                    <li>Rejects if the argument is > 10</li>
+                </ul>
+            </div>
+            <button onclick="runExercise1()">Run Exercise 1</button>
+            <div id="output1" class="output"></div>
+        </div>
+
+        <!-- Exercise 2 -->
+        <div class="exercise-section">
+            <h2>🌟 Exercise 2: Promises</h2>
+            <div class="instructions">
+                <strong>Goal:</strong> Create a promise that resolves itself in 4 seconds and returns a "success" string.
+            </div>
+            <button onclick="runExercise2()">Run Exercise 2 (Wait 4 seconds)</button>
+            <div id="output2" class="output"></div>
+        </div>
+
+        <!-- Exercise 3 -->
+        <div class="exercise-section">
+            <h2>🌟 Exercise 3: Resolve & Reject</h2>
+            <div class="instructions">
+                <strong>Goal:</strong> Use Promise.resolve(3) and Promise.reject("Boo!") methods.
+            </div>
+            <button onclick="runExercise3()">Run Exercise 3</button>
+            <div id="output3" class="output"></div>
+        </div>
+
+        <!-- Run All -->
+        <div class="exercise-section">
+            <h2>🎯 Run All Exercises</h2>
+            <button onclick="runAllExercises()" style="background-color: #ff9800;">Run All Exercises</button>
+            <button onclick="clearAllOutputs()" style="background-color: #f44336;">Clear All Outputs</button>
+        </div>
+    </div>
+
+    <script>
+        // Utility function to append output to a specific div
+        function appendOutput(elementId, message, isError = false) {
+            const element = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            const color = isError ? '#ff6b6b' : '#00ff00';
+            element.innerHTML += `<div style="color: ${color};">[${timestamp}] ${message}</div>`;
+            element.scrollTop = element.scrollHeight;
+        }
+
+        // Exercise 1: Comparison
+        function compareToTen(num) {
+            return new Promise((resolve, reject) => {
+                if (num <= 10) {
+                    resolve(`${num} is less than or equal to 10`);
+                } else {
+                    reject(`${num} is greater than 10`);
+                }
+            });
+        }
+
+        function runExercise1() {
+            document.getElementById('output1').innerHTML = '';
+            appendOutput('output1', '=== Exercise 1: Comparison ===');
+            
+            // Test case 1: Should reject (15 > 10)
+            appendOutput('output1', 'Testing compareToTen(15) - should reject:');
+            compareToTen(15)
+                .then(result => appendOutput('output1', `✅ Resolved: ${result}`))
+                .catch(error => appendOutput('output1', `❌ Rejected: ${error}`, true));
+
+            // Test case 2: Should resolve (8 <= 10)
+            appendOutput('output1', 'Testing compareToTen(8) - should resolve:');
+            compareToTen(8)
+                .then(result => appendOutput('output1', `✅ Resolved: ${result}`))
+                .catch(error => appendOutput('output1', `❌ Rejected: ${error}`, true));
+
+            // Additional tests
+            appendOutput('output1', 'Testing compareToTen(10) - should resolve:');
+            compareToTen(10)
+                .then(result => appendOutput('output1', `✅ Resolved: ${result}`))
+                .catch(error => appendOutput('output1', `❌ Rejected: ${error}`, true));
+        }
+
+        // Exercise 2: Promises with timeout
+        function createDelayedPromise() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve("success");
+                }, 4000);
+            });
+        }
+
+        function runExercise2() {
+            document.getElementById('output2').innerHTML = '';
+            appendOutput('output2', '=== Exercise 2: Promises ===');
+            appendOutput('output2', 'Creating a promise that resolves in 4 seconds...');
+            appendOutput('output2', `Start time: ${new Date().toLocaleTimeString()}`);
+            appendOutput('output2', '⏳ Waiting for promise to resolve...');
+            
+            createDelayedPromise()
+                .then(result => {
+                    appendOutput('output2', `✅ Promise resolved with: "${result}"`);
+                    appendOutput('output2', `End time: ${new Date().toLocaleTimeString()}`);
+                });
+        }
+
+        // Exercise 3: Resolve & Reject
+        function runExercise3() {
+            document.getElementById('output3').innerHTML = '';
+            appendOutput('output3', '=== Exercise 3: Resolve & Reject ===');
+            
+            // Promise that resolves with value 3
+            appendOutput('output3', 'Testing Promise.resolve(3):');
+            const resolvedPromise = Promise.resolve(3);
+            resolvedPromise
+                .then(value => {
+                    appendOutput('output3', `✅ Resolved promise returned: ${value}`);
+                })
+                .catch(error => {
+                    appendOutput('output3', `❌ Error: ${error}`, true);
+                });
+
+            // Promise that rejects with "Boo!"
+            appendOutput('output3', 'Testing Promise.reject("Boo!"):');
+            const rejectedPromise = Promise.reject("Boo!");
+            rejectedPromise
+                .then(value => {
+                    appendOutput('output3', `This should not run: ${value}`);
+                })
+                .catch(error => {
+                    appendOutput('output3', `❌ Rejected promise returned: ${error}`, true);
+                });
+
+            // Additional examples
+            setTimeout(() => {
+                appendOutput('output3', '\n--- Additional Examples ---');
+                
+                Promise.resolve("Hello World")
+                    .then(value => appendOutput('output3', `String resolve: ${value}`));
+
+                Promise.resolve([1, 2, 3, 4, 5])
+                    .then(value => appendOutput('output3', `Array resolve: [${value}]`));
+
+                Promise.resolve({ name: "John", age: 30 })
+                    .then(value => appendOutput('output3', `Object resolve: ${JSON.stringify(value)}`));
+
+                Promise.reject(new Error("Custom error message"))
+                    .catch(error => appendOutput('output3', `Error object: ${error.message}`, true));
+            }, 100);
+        }
+
+        // Run all exercises
+        function runAllExercises() {
+            clearAllOutputs();
+            runExercise1();
+            setTimeout(() => runExercise3(), 500);
+            setTimeout(() => runExercise2(), 1000);
+        }
+
+        // Clear all outputs
+        function clearAllOutputs() {
+            ['output1', 'output2', 'output3'].forEach(id => {
+                document.getElementById(id).innerHTML = '';
+            });
+        }
+
+        // Initialize on page load
+        window.onload = function() {
+            console.log('🚀 Asynchronous Javascript Exercises Loaded!');
+            console.log('Click the buttons to run each exercise.');
+        }
+    </script>
+</body>
+</html>
