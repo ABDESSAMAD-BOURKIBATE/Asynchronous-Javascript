@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week #5 Day #2 - Exercises XP Gold</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #f8fafc;
+            --text-color: #334155;
+            --text-light: #64748b;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.025em;
+        }
+
+        .header .subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .header .description {
+            color: var(--text-color);
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .exercises-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .exercise-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .exercise-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+
+        .exercise-header h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: -0.025em;
+        }
+
+        .exercise-header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .exercise-body {
+            padding: 24px;
+        }
+
+        .exercise-description {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .button {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .button:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button.secondary {
+            background: var(--secondary-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .button.secondary:hover {
+            background: #f1f5f9;
+        }
+
+        .console-output {
+            background: #1e293b;
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 16px;
+            border: 1px solid #334155;
+        }
+
+        .console-output:empty {
+            display: none;
+        }
+
+        .status {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-top: 12px;
+            display: inline-block;
+        }
+
+        .status.success {
+            background: #ecfdf5;
+            color: var(--success-color);
+            border: 1px solid #bbf7d0;
+        }
+
+        .status.error {
+            background: #fef2f2;
+            color: var(--error-color);
+            border: 1px solid #fecaca;
+        }
+
+        .status.warning {
+            background: #fffbeb;
+            color: var(--warning-color);
+            border: 1px solid #fed7aa;
+        }
+
+        .gif-container {
+            margin: 20px auto;
+            text-align: center;
+            padding: 15px;
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            background: white;
+            box-shadow: var(--shadow-md);
+            max-width: 400px;
+        }
+
+        .gif-container h3 {
+            margin: 0 0 10px 0;
+            color: var(--text-color);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .gif-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .controls {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            margin-bottom: 24px;
+        }
+
+        .controls h2 {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: -0.025em;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .loading {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .loading::after {
+            content: " ⏳";
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .exercises-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>Exercises XP Gold</h1>
+            <div class="subtitle">Week #5 - Day #2 - Advanced Async/Await Mastery</div>
+            <div class="description">
+                Advanced exercises focusing on Fetch API, concurrent execution patterns, error handling strategies, and real-world API integration with professional async/await implementations.
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="controls">
+            <h2>Exercise Controls</h2>
+            <div class="button-group">
+                <button class="button" onclick="runAllExercises()">Run All Exercises</button>
+                <button class="button secondary" onclick="clearAllOutputs()">Clear All Outputs</button>
+            </div>
+        </div>
+
+        <!-- Exercises Grid -->
+        <div class="exercises-grid">
+            <!-- Exercise 1: Giphy API Random GIF -->
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <h3>Exercise 1: Giphy API Random GIF</h3>
+                    <p>Fetch and display random GIF with error handling</p>
+                </div>
+                <div class="exercise-body">
+                    <div class="exercise-description">
+                        Fetch a random GIF from Giphy API, validate response status, handle network errors, and dynamically append the GIF to the page with professional styling.
+                    </div>
+                    <button class="button" onclick="runExercise1()">Fetch Random GIF</button>
+                    <div id="exercise1-status"></div>
+                    <div id="exercise1-console" class="console-output"></div>
+                    <div id="exercise1-output"></div>
+                </div>
+            </div>
+
+            <!-- Exercise 2: Sequential Analysis -->
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <h3>Exercise 2: Sequential Execution Analysis</h3>
+                    <p>Analyze blocking async/await patterns</p>
+                </div>
+                <div class="exercise-body">
+                    <div class="exercise-description">
+                        Analyze sequential async/await execution with 2-second and 1-second promises. Understand blocking behavior and total execution time calculation.
+                    </div>
+                    <button class="button" onclick="runExercise2()">Run Sequential Analysis</button>
+                    <div id="exercise2-status"></div>
+                    <div id="exercise2-console" class="console-output"></div>
+                </div>
+            </div>
+
+            <!-- Exercise 3: Concurrent Analysis -->
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <h3>Exercise 3: Concurrent Execution Analysis</h3>
+                    <p>Analyze non-blocking promise execution</p>
+                </div>
+                <div class="exercise-body">
+                    <div class="exercise-description">
+                        Analyze concurrent promise execution without blocking. Compare performance with sequential approach and understand parallel execution patterns.
+                    </div>
+                    <button class="button" onclick="runExercise3()">Run Concurrent Analysis</button>
+                    <div id="exercise3-status"></div>
+                    <div id="exercise3-console" class="console-output"></div>
+                </div>
+            </div>
+
+            <!-- Exercise 4: Promise.all to Async/Await -->
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <h3>Exercise 4: Promise.all Conversion</h3>
+                    <p>Convert .then() chains to async/await</p>
+                </div>
+                <div class="exercise-body">
+                    <div class="exercise-description">
+                        Modify existing Promise.all code to use async/await instead of .then() chains. Add comprehensive error handling with try/catch blocks.
+                    </div>
+                    <button class="button" onclick="runExercise4()">Run API Requests</button>
+                    <button class="button secondary" onclick="runExercise4Error()">Test Error Handling</button>
+                    <div id="exercise4-status"></div>
+                    <div id="exercise4-console" class="console-output"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load JavaScript -->
+    <script src="all_exercises.js"></script>
+    
+    <script>
+        // Enhanced console logging for UI
+        const originalLog = console.log;
+        const originalError = console.error;
+        
+        function createConsoleCapture(exerciseId) {
+            const outputElement = document.getElementById(`${exerciseId}-console`);
+            const statusElement = document.getElementById(`${exerciseId}-status`);
+            
+            if (!outputElement) return;
+            
+            const logs = [];
+            
+            // Capture console.log
+            console.log = function(...args) {
+                originalLog.apply(console, args);
+                const message = args.map(arg => 
+                    typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                ).join(' ');
+                logs.push(`<div style="color: #e2e8f0;">${escapeHtml(message)}</div>`);
+                updateOutput();
+            };
+            
+            // Capture console.error
+            console.error = function(...args) {
+                originalError.apply(console, args);
+                const message = args.map(arg => 
+                    typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                ).join(' ');
+                logs.push(`<div style="color: #ef4444;">${escapeHtml(message)}</div>`);
+                updateOutput();
+            };
+            
+            function updateOutput() {
+                outputElement.innerHTML = logs.join('');
+                outputElement.scrollTop = outputElement.scrollHeight;
+                outputElement.style.display = logs.length ? 'block' : 'none';
+            }
+            
+            function restore() {
+                console.log = originalLog;
+                console.error = originalError;
+            }
+            
+            return { restore, logs };
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function setStatus(exerciseId, type, message) {
+            const statusElement = document.getElementById(`${exerciseId}-status`);
+            if (statusElement) {
+                statusElement.innerHTML = `<div class="status ${type}">${message}</div>`;
+            }
+        }
+        
+        function setButtonLoading(button, loading = true) {
+            if (loading) {
+                button.classList.add('loading');
+                button.disabled = true;
+            } else {
+                button.classList.remove('loading');
+                button.disabled = false;
+            }
+        }
+        
+        // Exercise 1: Giphy API
+        async function runExercise1() {
+            const button = event.target;
+            setButtonLoading(button);
+            setStatus('exercise1', 'warning', 'Fetching random GIF from Giphy API...');
+            
+            const capture = createConsoleCapture('exercise1');
+            
+            try {
+                const result = await exercise1_giphyRandomGif();
+                
+                if (result.success) {
+                    setStatus('exercise1', 'success', `✅ GIF loaded: "${result.title}"`);
+                } else {
+                    setStatus('exercise1', 'error', `❌ Failed: ${result.error}`);
+                }
+            } catch (error) {
+                setStatus('exercise1', 'error', `❌ Error: ${error.message}`);
+            } finally {
+                capture.restore();
+                setButtonLoading(button, false);
+            }
+        }
+        
+        // Exercise 2: Sequential Analysis
+        async function runExercise2() {
+            const button = event.target;
+            setButtonLoading(button);
+            setStatus('exercise2', 'warning', 'Running sequential analysis...');
+            
+            const capture = createConsoleCapture('exercise2');
+            
+            try {
+                const result = await exercise2_sequentialAnalysis();
+                setStatus('exercise2', 'success', `✅ Completed in ${result.executionTime}ms (Sequential)`);
+            } catch (error) {
+                setStatus('exercise2', 'error', `❌ Error: ${error.message}`);
+            } finally {
+                capture.restore();
+                setButtonLoading(button, false);
+            }
+        }
+        
+        // Exercise 3: Concurrent Analysis
+        async function runExercise3() {
+            const button = event.target;
+            setButtonLoading(button);
+            setStatus('exercise3', 'warning', 'Running concurrent analysis (starts in 4s)...');
+            
+            const capture = createConsoleCapture('exercise3');
+            
+            try {
+                const result = await exercise3_concurrentAnalysis();
+                setStatus('exercise3', 'success', `✅ Completed in ${result.executionTime}ms (Concurrent)`);
+            } catch (error) {
+                setStatus('exercise3', 'error', `❌ Error: ${error.message}`);
+            } finally {
+                capture.restore();
+                setButtonLoading(button, false);
+            }
+        }
+        
+        // Exercise 4: Promise.all Conversion
+        async function runExercise4() {
+            const button = event.target;
+            setButtonLoading(button);
+            setStatus('exercise4', 'warning', 'Fetching from 3 APIs concurrently...');
+            
+            const capture = createConsoleCapture('exercise4');
+            
+            try {
+                const result = await exercise4_promiseAllToAsyncAwait();
+                
+                if (result.success) {
+                    setStatus('exercise4', 'success', `✅ Success: ${result.stats.usersCount} users, ${result.stats.postsCount} posts, ${result.stats.albumsCount} albums`);
+                } else {
+                    setStatus('exercise4', 'error', `❌ Failed: ${result.error}`);
+                }
+            } catch (error) {
+                setStatus('exercise4', 'error', `❌ Error: ${error.message}`);
+            } finally {
+                capture.restore();
+                setButtonLoading(button, false);
+            }
+        }
+        
+        // Exercise 4: Error Handling Test
+        async function runExercise4Error() {
+            const button = event.target;
+            setButtonLoading(button);
+            setStatus('exercise4', 'warning', 'Testing error handling with invalid URL...');
+            
+            const capture = createConsoleCapture('exercise4');
+            
+            try {
+                const result = await exercise4_testErrorHandling();
+                
+                if (result.expectedError) {
+                    setStatus('exercise4', 'success', '✅ Error handling test passed ("ooooooops" logged)');
+                } else {
+                    setStatus('exercise4', 'warning', '⚠️ Unexpected result in error test');
+                }
+            } catch (error) {
+                setStatus('exercise4', 'error', `❌ Error: ${error.message}`);
+            } finally {
+                capture.restore();
+                setButtonLoading(button, false);
+            }
+        }
+        
+        // Run all exercises
+        async function runAllExercises() {
+            console.log('🚀 Starting all XP Gold exercises...');
+            
+            // Sequential execution to avoid overwhelming
+            await runExercise1();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await runExercise2();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await runExercise4();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await runExercise3(); // Last because it has 4s delay
+            
+            console.log('🎉 All exercises completed!');
+        }
+        
+        // Clear all outputs
+        function clearAllOutputs() {
+            const outputs = document.querySelectorAll('.console-output, .status, #exercise1-output');
+            outputs.forEach(element => {
+                element.innerHTML = '';
+                if (element.classList.contains('console-output')) {
+                    element.style.display = 'none';
+                }
+            });
+            console.log('🧹 All outputs cleared');
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎓 XP Gold Exercises - Advanced Async/Await Patterns');
+            console.log('Click any exercise button to begin, or "Run All Exercises" to execute everything!');
+        });
+    </script>
+</body>
+</html>

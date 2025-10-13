@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week #5 Day #2 - Exercises XP Ninja</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --primary-light: #a78bfa;
+            --secondary-color: #f8fafc;
+            --accent-color: #06b6d4;
+            --text-color: #334155;
+            --text-light: #64748b;
+            --text-dark: #1e293b;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --gradient-ninja: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+            --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+            background: var(--gradient-card);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-ninja);
+        }
+
+        .header h1 {
+            background: var(--gradient-ninja);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.05em;
+        }
+
+        .header .subtitle {
+            color: var(--text-light);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .header .description {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .ninja-badge {
+            display: inline-block;
+            background: var(--gradient-ninja);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        /* GIF Search Section */
+        .gif-search-section {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            color: var(--text-dark);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-description {
+            color: var(--text-light);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: white;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-light);
+        }
+
+        .search-button {
+            background: var(--gradient-ninja);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .search-button:active {
+            transform: translateY(0);
+        }
+
+        .search-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Status Messages */
+        .status {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            margin: 16px 0;
+        }
+
+        .status.success {
+            background: #ecfdf5;
+            color: var(--success-color);
+            border: 1px solid #bbf7d0;
+        }
+
+        .status.error {
+            background: #fef2f2;
+            color: var(--error-color);
+            border: 1px solid #fecaca;
+        }
+
+        .status.warning {
+            background: #fffbeb;
+            color: var(--warning-color);
+            border: 1px solid #fed7aa;
+        }
+
+        /* GIF Results */
+        .gif-results-container {
+            margin-top: 24px;
+        }
+
+        .search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: var(--secondary-color);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .search-header h3 {
+            color: var(--text-dark);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .delete-all-btn {
+            background: var(--error-color);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .delete-all-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .gif-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .gif-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .gif-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .gif-info {
+            padding: 16px 16px 8px 16px;
+        }
+
+        .gif-info h4 {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .gif-rating {
+            background: var(--primary-light);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .gif-image-container {
+            padding: 0 16px;
+            text-align: center;
+        }
+
+        .gif-image-container img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .gif-actions {
+            padding: 12px 16px 16px 16px;
+        }
+
+        .remove-gif-btn {
+            background: var(--error-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .remove-gif-btn:hover {
+            background: #dc2626;
+        }
+
+        .no-results, .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+
+        .no-results h3, .empty-state h3 {
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+
+        /* Analysis Exercises Section */
+        .analysis-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .exercise-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .exercise-header {
+            background: var(--gradient-ninja);
+            color: white;
+            padding: 24px;
+        }
+
+        .exercise-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.025em;
+        }
+
+        .exercise-header p {
+            opacity: 0.9;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .exercise-body {
+            padding: 24px;
+        }
+
+        .exercise-description {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .button {
+            background: var(--gradient-ninja);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button.secondary {
+            background: var(--secondary-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .button.secondary:hover {
+            background: #f1f5f9;
+        }
+
+        .console-output {
+            background: #0f172a;
+            color: #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            max-height: 500px;
+            overflow-y: auto;
+            margin-top: 16px;
+            border: 1px solid #1e293b;
+        }
+
+        .console-output:empty {
+            display: none;
+        }
+
+        /* Control Panel */
+        .controls {
+            background: white;
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            margin-bottom: 32px;
+        }
+
+        .controls h2 {
+            color: var(--text-dark);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .loading {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .loading::after {
+            content: " ⏳";
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .analysis-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .search-header {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            
+            .gif-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 24px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .gif-search-section,
+            .controls,
+            .exercise-card {
+                padding: 20px;
+            }
+            
+            .gif-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="ninja-badge">🥷 NINJA LEVEL</div>
+            <h1>Exercises XP Ninja</h1>
+            <div class="subtitle">Week #5 - Day #2 - Master Level Async Patterns</div>
+            <div class="description">
+                Master-level exercises combining interactive API usage, advanced Promise execution patterns, and professional error handling. Train your asynchronous JavaScript skills to ninja proficiency.
+            </div>
+        </div>
+
+        <!-- Interactive GIF Search Section -->
+        <section class="gif-search-section">
+            <h2 class="section-title">
+                🎯 Exercise 1: Interactive Giphy Category Search
+            </h2>
+            <p class="section-description">
+                Search for GIFs by category, display results in a professional grid, and manage them with individual or bulk delete functionality. Features advanced error handling and search history tracking.
+            </p>
+
+            <form class="search-form" onsubmit="handleGifSearch(event)">
+                <input 
+                    type="text" 
+                    id="gif-search-input" 
+                    class="search-input" 
+                    placeholder="Enter GIF category (e.g., happy, funny, cats, coding...)"
+                    autocomplete="off"
+                >
+                <button type="submit" class="search-button">
+                    🔍 Search GIFs
+                </button>
+            </form>
+
+            <div id="search-status"></div>
+            <div id="gif-results" class="gif-results-container">
+                <div class="empty-state">
+                    <h3>Ready to search for GIFs</h3>
+                    <p>Enter a category above to discover amazing GIFs</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Control Panel -->
+        <div class="controls">
+            <h2>🎮 Exercise Controls</h2>
+            <div class="button-group">
+                <button class="button" onclick="runAllAnalysisExercises()">🚀 Run All Analysis</button>
+                <button class="button secondary" onclick="clearAllOutputs()">🧹 Clear All Outputs</button>
+            </div>
+        </div>
+
+        <!-- Analysis Exercises -->
+        <div class="analysis-section">
+            <!-- Exercise 2: Promise.all Analysis -->
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <h3>Exercise 2: Promise.all() Analysis</h3>
+                    <p>Concurrent execution with Promise.all pattern</p>
+                </div>
+                <div class="exercise-body">
+                    <div class="exercise-description">
+                        Analyze Promise.all() execution pattern with concurrent promise processing. Understand how Promise.all waits for all promises and maintains result order.
+                    </div>
+                    <button class="button" onclick="runExercise2()">Run Promise.all Analysis</button>
+                    <div id="exercise2-status"></div>
+                    <div id="exercise2-console" class="console-output"></div>
+                </div>
+            </div>
+
+            <!-- Exercise 3: Parallel Async Analysis -->
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <h3>Exercise 3: Parallel Async Analysis</h3>
+                    <p>IIFE async functions with Promise.all</p>
+                </div>
+                <div class="exercise-body">
+                    <div class="exercise-description">
+                        Analyze parallel execution using immediately invoked async functions with Promise.all. Compare immediate logging vs collected results pattern.
+                    </div>
+                    <button class="button" onclick="runExercise3()">Run Parallel Analysis</button>
+                    <div id="exercise3-status"></div>
+                    <div id="exercise3-console" class="console-output"></div>
+                </div>
+            </div>
+
+            <!-- Exercise 4: Parallel Then Analysis -->
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    <h3>Exercise 4: Parallel Then Analysis</h3>
+                    <p>"Fire and forget" promise pattern</p>
+                </div>
+                <div class="exercise-body">
+                    <div class="exercise-description">
+                        Analyze parallel Promise.then() execution without Promise.all. Understand "fire and forget" patterns and their implications for error handling.
+                    </div>
+                    <button class="button" onclick="runExercise4()">Run Then Analysis</button>
+                    <div id="exercise4-status"></div>
+                    <div id="exercise4-console" class="console-output"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load JavaScript -->
+    <script src="all_exercises.js"></script>
+    
+    <script>
+        // Enhanced console logging for UI
+        const originalLog = console.log;
+        const originalError = console.error;
+        
+        function createConsoleCapture(exerciseId) {
+            const outputElement = document.getElementById(`${exerciseId}-console`);
+            const statusElement = document.getElementById(`${exerciseId}-status`);
+            
+            if (!outputElement) return { restore: () => {} };
+            
+            const logs = [];
+            
+            // Capture console.log
+            console.log = function(...args) {
+                originalLog.apply(console, args);
+                const message = args.map(arg => 
+                    typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                ).join(' ');
+                logs.push(`<div style="color: #e2e8f0; margin: 2px 0;">${escapeHtml(message)}</div>`);
+                updateOutput();
+            };
+            
+            // Capture console.error
+            console.error = function(...args) {
+                originalError.apply(console, args);
+                const message = args.map(arg => 
+                    typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                ).join(' ');
+                logs.push(`<div style="color: #ef4444; margin: 2px 0;">${escapeHtml(message)}</div>`);
+                updateOutput();
+            };
+            
+            function updateOutput() {
+                outputElement.innerHTML = logs.join('');
+                outputElement.scrollTop = outputElement.scrollHeight;
+                outputElement.style.display = logs.length ? 'block' : 'none';
+            }
+            
+            function restore() {
+                console.log = originalLog;
+                console.error = originalError;
+            }
+            
+            return { restore, logs };
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function setStatus(exerciseId, type, message) {
+            const statusElement = document.getElementById(`${exerciseId}-status`);
+            if (statusElement) {
+                statusElement.innerHTML = `<div class="status ${type}">${message}</div>`;
+            }
+        }
+        
+        function setButtonLoading(button, loading = true) {
+            if (loading) {
+                button.classList.add('loading');
+                button.disabled = true;
+            } else {
+                button.classList.remove('loading');
+                button.disabled = false;
+            }
+        }
+        
+        // Exercise 2: Promise.all Analysis
+        async function runExercise2() {
+            const button = event.target;
+            setButtonLoading(button);
+            setStatus('exercise2', 'warning', 'Running Promise.all() analysis...');
+            
+            const capture = createConsoleCapture('exercise2');
+            
+            try {
+                const result = await exercise2_promiseAllAnalysis();
+                setStatus('exercise2', 'success', `✅ Completed in ${result.executionTime}ms (${result.pattern})`);
+            } catch (error) {
+                setStatus('exercise2', 'error', `❌ Error: ${error.message}`);
+            } finally {
+                capture.restore();
+                setButtonLoading(button, false);
+            }
+        }
+        
+        // Exercise 3: Parallel Async Analysis
+        async function runExercise3() {
+            const button = event.target;
+            setButtonLoading(button);
+            setStatus('exercise3', 'warning', 'Running parallel async analysis (starts in 5s)...');
+            
+            const capture = createConsoleCapture('exercise3');
+            
+            try {
+                const result = await exercise3_parallelAsyncAnalysis();
+                setStatus('exercise3', 'success', `✅ Completed in ${result.executionTime}ms (${result.pattern})`);
+            } catch (error) {
+                setStatus('exercise3', 'error', `❌ Error: ${error.message}`);
+            } finally {
+                capture.restore();
+                setButtonLoading(button, false);
+            }
+        }
+        
+        // Exercise 4: Parallel Then Analysis
+        async function runExercise4() {
+            const button = event.target;
+            setButtonLoading(button);
+            setStatus('exercise4', 'warning', 'Running parallel then analysis (starts in 13s)...');
+            
+            const capture = createConsoleCapture('exercise4');
+            
+            try {
+                const result = await exercise4_parallelThenAnalysis();
+                setStatus('exercise4', 'success', `✅ Function: ${result.functionDuration}ms, Promises: ${result.totalPromiseTime}ms`);
+            } catch (error) {
+                setStatus('exercise4', 'error', `❌ Error: ${error.message}`);
+            } finally {
+                capture.restore();
+                setButtonLoading(button, false);
+            }
+        }
+        
+        // Run all analysis exercises
+        async function runAllAnalysisExercises() {
+            console.log('🥷 Starting all ninja analysis exercises...');
+            
+            // Sequential execution to avoid overwhelming
+            await runExercise2();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await runExercise3();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await runExercise4();
+            
+            console.log('🎉 All ninja analysis exercises completed!');
+        }
+        
+        // Clear all outputs
+        function clearAllOutputs() {
+            const outputs = document.querySelectorAll('.console-output, .status');
+            outputs.forEach(element => {
+                element.innerHTML = '';
+                if (element.classList.contains('console-output')) {
+                    element.style.display = 'none';
+                }
+            });
+            
+            // Reset GIF search to empty state
+            const gifResults = document.getElementById('gif-results');
+            if (gifResults) {
+                gifResults.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Ready to search for GIFs</h3>
+                        <p>Enter a category above to discover amazing GIFs</p>
+                    </div>
+                `;
+            }
+            
+            console.log('🧹 All outputs cleared - Ready for fresh ninja training!');
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🥷 Ninja exercises initialized - Master level training ready!');
+            console.log('📋 Available exercises:');
+            console.log('• Exercise 1: Interactive GIF search with category filtering');
+            console.log('• Exercise 2: Promise.all() concurrent execution analysis');
+            console.log('• Exercise 3: Parallel async/await with IIFE functions');
+            console.log('• Exercise 4: "Fire and forget" Promise.then() patterns');
+        });
+    </script>
+</body>
+</html>

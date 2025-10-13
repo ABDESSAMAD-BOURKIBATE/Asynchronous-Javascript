@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Wars Character Finder - SWAPI Explorer</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --star-wars-gold: #FFE81F;
+            --star-wars-blue: #0D7377;
+            --space-black: #000000;
+            --space-dark: #0a0a0a;
+            --text-white: #ffffff;
+            --text-gray: #cccccc;
+            --border-gold: #FFE81F;
+            --glow-gold: rgba(255, 232, 31, 0.6);
+            --error-red: #ff4444;
+            --success-green: #44ff44;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--space-black);
+            color: var(--text-white);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Starfield Background */
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+            z-index: -2;
+        }
+
+        .starfield::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.8), transparent),
+                radial-gradient(1px 1px at 90px 40px, #ffffff, transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(2px 2px at 160px 30px, #ffffff, transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: sparkle 20s linear infinite;
+        }
+
+        @keyframes sparkle {
+            from { transform: translateX(0); }
+            to { transform: translateX(200px); }
+        }
+
+        /* Floating stars animation */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        .star:nth-child(odd) {
+            animation-delay: 1s;
+        }
+
+        .star:nth-child(even) {
+            animation-delay: 2s;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--star-wars-gold);
+            text-shadow: 
+                0 0 10px var(--glow-gold),
+                0 0 20px var(--glow-gold),
+                0 0 40px var(--glow-gold);
+            margin-bottom: 1rem;
+            letter-spacing: 8px;
+            background: linear-gradient(45deg, #FFE81F, #FFF700, #FFE81F);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow-pulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow-pulse {
+            from { 
+                text-shadow: 
+                    0 0 10px var(--glow-gold),
+                    0 0 20px var(--glow-gold),
+                    0 0 40px var(--glow-gold);
+            }
+            to { 
+                text-shadow: 
+                    0 0 20px var(--glow-gold),
+                    0 0 30px var(--glow-gold),
+                    0 0 60px var(--glow-gold);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-gray);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* Main Content Container */
+        .main-content {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--border-gold);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 
+                0 0 30px var(--glow-gold),
+                inset 0 0 30px rgba(255, 232, 31, 0.1);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, transparent, var(--star-wars-gold), transparent);
+            border-radius: 15px;
+            z-index: -1;
+            animation: border-glow 3s linear infinite;
+        }
+
+        @keyframes border-glow {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        /* Find Someone Button */
+        .find-button {
+            display: block;
+            width: 250px;
+            margin: 0 auto 2rem;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, var(--star-wars-gold), #FFF700);
+            color: var(--space-black);
+            border: none;
+            border-radius: 50px;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 5px 20px rgba(255, 232, 31, 0.4),
+                inset 0 0 20px rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .find-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .find-button:hover::before {
+            left: 100%;
+        }
+
+        .find-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 8px 30px rgba(255, 232, 31, 0.6),
+                inset 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .find-button:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .find-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Character Display Section */
+        .character-display {
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .character-info {
+            display: none;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .character-info.show {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .character-name {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--star-wars-gold);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px var(--glow-gold);
+            letter-spacing: 2px;
+        }
+
+        .character-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .detail-item {
+            background: rgba(255, 232, 31, 0.1);
+            border: 1px solid var(--border-gold);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .detail-item:hover {
+            background: rgba(255, 232, 31, 0.2);
+            box-shadow: 0 5px 15px rgba(255, 232, 31, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .detail-label {
+            font-size: 0.9rem;
+            color: var(--star-wars-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            font-size: 1.2rem;
+            color: var(--text-white);
+            font-weight: 400;
+        }
+
+        /* Loading State */
+        .loading-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .loading-container.show {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(255, 232, 31, 0.3);
+            border-left: 4px solid var(--star-wars-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: var(--star-wars-gold);
+            letter-spacing: 2px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Error State */
+        .error-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            text-align: center;
+        }
+
+        .error-container.show {
+            display: flex;
+        }
+
+        .error-message {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: var(--error-red);
+            background: rgba(255, 68, 68, 0.1);
+            border: 2px solid var(--error-red);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 0 20px rgba(255, 68, 68, 0.3);
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            color: var(--error-red);
+            margin-bottom: 1rem;
+        }
+
+        /* Initial State */
+        .initial-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            color: var(--text-gray);
+            font-size: 1.2rem;
+        }
+
+        .initial-state.hide {
+            display: none;
+        }
+
+        .initial-icon {
+            font-size: 4rem;
+            color: var(--star-wars-gold);
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+
+            .character-name {
+                font-size: 2rem;
+            }
+
+            .character-details {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .find-button {
+                width: 200px;
+                font-size: 1rem;
+                padding: 12px 24px;
+            }
+        }
+
+        /* Additional Star Wars Effects */
+        .lightsaber-glow {
+            position: absolute;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--star-wars-gold), transparent);
+            left: 0;
+            top: 0;
+            opacity: 0.5;
+            /* Animation disabled as requested */
+        }
+
+        @keyframes lightsaber {
+            0%, 100% { opacity: 0.3; transform: translateX(0px); }
+            50% { opacity: 1; transform: translateX(800px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="starfield"></div>
+    <div class="stars" id="stars-container"></div>
+    <div class="lightsaber-glow"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">STAR WARS</h1>
+            <p class="subtitle">Character Explorer</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Find Someone Button -->
+            <button class="find-button" id="findButton">
+                <i class="fas fa-search"></i> Find Someone
+            </button>
+
+            <!-- Character Display Area -->
+            <div class="character-display">
+                <!-- Initial State -->
+                <div class="initial-state hide" id="initialState">
+                    <i class="fas fa-jedi initial-icon"></i>
+                    <p>Click "Find Someone" to discover a Star Wars character</p>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">Explore the galaxy far, far away...</p>
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading-container" id="loadingContainer">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">Loading...</div>
+                </div>
+
+                <!-- Error State -->
+                <div class="error-container" id="errorContainer">
+                    <div class="error-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="error-message" id="errorMessage">
+                        Oh No! That person isn't available.
+                    </div>
+                </div>
+
+                <!-- Character Info -->
+                <div class="character-info show" id="characterInfo">
+                    <h2 class="character-name" id="characterName">Abdessamad Bourkibate</h2>
+                    
+                    <div class="character-details">
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-ruler-vertical"></i> Age
+                            </div>
+                            <div class="detail-value" id="characterHeight">24 years old</div>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-venus-mars"></i> Gender
+                            </div>
+                            <div class="detail-value" id="characterGender">male</div>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-birthday-cake"></i> Birth Date
+                            </div>
+                            <div class="detail-value" id="characterBirthYear">03/08/2001</div>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-globe"></i> Home World
+                            </div>
+                            <div class="detail-value" id="characterHomeworld">Earth</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
