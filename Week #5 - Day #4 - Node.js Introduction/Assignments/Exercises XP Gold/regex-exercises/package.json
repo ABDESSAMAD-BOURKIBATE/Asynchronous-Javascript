@@ -1,0 +1,27 @@
+{
+  "name": "regex-exercises",
+  "version": "1.0.0",
+  "description": "Node.js exercises demonstrating regular expressions for number extraction and name validation",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "numbers": "node -e \"require('./number-extractor.js').runNumberExtractionTests()\"",
+    "names": "node -e \"require('./name-validator.js').runNameValidationTests()\"",
+    "test": "npm run numbers && npm run names"
+  },
+  "keywords": [
+    "nodejs",
+    "regex",
+    "regular-expressions",
+    "validation",
+    "string-manipulation"
+  ],
+  "author": "Abdessamad Bourkibate",
+  "license": "MIT",
+  "optionalDependencies": {
+    "prompt-sync": "^4.2.0"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "nodejs-introduction-exercises",
+  "version": "1.0.0",
+  "description": "Combined Node.js Introduction exercises covering modules, fs operations, classes, and more",
+  "main": "all_exercises_combined.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node all_exercises_combined.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "javascript",
+    "modules",
+    "fs",
+    "classes",
+    "exercises",
+    "learning"
+  ],
+  "author": "Abdessamad Bourkibate",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "chalk": "^4.1.2"
+  }
+}

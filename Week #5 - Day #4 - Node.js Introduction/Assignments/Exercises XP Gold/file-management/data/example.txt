@@ -1,0 +1,20 @@
+Welcome to Node.js File Management!
+
+This is an example text file created for demonstrating file operations in Node.js.
+
+Key concepts covered:
+- File path manipulation using the path module
+- File system operations with fs module
+- File existence checking
+- File statistics and metadata
+- Cross-platform path handling
+
+Date created: October 14, 2025
+Author: Abdessamad Bourkibate
+
+This file will be used to demonstrate:
+1. How to check if a file exists
+2. How to get file statistics (size, creation time, etc.)
+3. How to work with file paths across different operating systems
+
+Node.js provides powerful built-in modules for file operations that make it easy to work with the file system in a cross-platform manner.

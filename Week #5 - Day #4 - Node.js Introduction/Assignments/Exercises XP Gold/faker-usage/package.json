@@ -1,0 +1,30 @@
+{
+  "name": "faker-usage",
+  "version": "1.0.0",
+  "description": "Node.js exercise demonstrating fake data generation using faker.js and user input with prompt-sync",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "generate": "node user-generator.js",
+    "interactive": "node interactive-app.js",
+    "install": "npm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "faker",
+    "fake-data",
+    "user-generation",
+    "prompt-sync",
+    "interactive"
+  ],
+  "author": "Abdessamad Bourkibate",
+  "license": "MIT",
+  "dependencies": {
+    "@faker-js/faker": "^8.2.0",
+    "prompt-sync": "^4.2.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

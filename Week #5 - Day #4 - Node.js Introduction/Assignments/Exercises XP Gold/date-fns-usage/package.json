@@ -1,0 +1,27 @@
+{
+  "name": "date-fns-usage",
+  "version": "1.0.0",
+  "description": "Node.js exercise demonstrating date manipulation using date-fns library",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dates": "node date-operations.js",
+    "install": "npm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "date-fns",
+    "date-manipulation",
+    "date-formatting",
+    "time-operations"
+  ],
+  "author": "Abdessamad Bourkibate",
+  "license": "MIT",
+  "dependencies": {
+    "date-fns": "^2.30.0"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
