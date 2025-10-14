@@ -79,7 +79,9 @@ Currency Converter/
 ## 🔧 Configuration
 
 ### API Key Setup
-The project uses a free ExchangeRate API key. For production use:
+The project uses ExchangeRate API with the key: `f2c413786f8806caf7bdf1f5`
+
+For your own API key:
 
 1. **Sign up** at [ExchangeRate API](https://www.exchangerate-api.com/)
 2. **Get your API key**
@@ -97,18 +99,17 @@ this.apiKey = 'YOUR_API_KEY_HERE';
 
 ### ExchangeRate API Endpoints Used
 
-1. **Supported Codes Endpoint**
+1. **Latest Rates Endpoint**
    ```
-   GET https://v6.exchangerate-api.com/v6/{API_KEY}/codes
+   GET https://v6.exchangerate-api.com/v6/{API_KEY}/latest/{BASE_CURRENCY}
    ```
-   - Fetches all supported currency codes and names
+   - Fetches latest exchange rates for a base currency
+   - Returns all available currencies and their conversion rates
 
-2. **Pair Conversion Endpoint**
-   ```
-   GET https://v6.exchangerate-api.com/v6/{API_KEY}/pair/{FROM}/{TO}/{AMOUNT}
-   ```
-   - Converts specific amount between two currencies
-   - Returns conversion result and exchange rate
+**Example API Call:**
+```
+https://v6.exchangerate-api.com/v6/f2c413786f8806caf7bdf1f5/latest/USD
+```
 
 ### Rate Limits
 - **Free Tier**: 1,500 requests/month

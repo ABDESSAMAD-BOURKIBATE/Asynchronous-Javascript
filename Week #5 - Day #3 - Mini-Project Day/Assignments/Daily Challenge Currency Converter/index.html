@@ -6,18 +6,37 @@
     <title>Currency Converter | Daily Challenge</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* CSS Variables */
+        /* Professional Color Palette */
         :root {
-            --primary-blue: #3b82f6;
-            --primary-purple: #8b5cf6;
-            --accent-cyan: #06b6d4;
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --text-white: #ffffff;
-            --text-gray: #e5e7eb;
-            --success-green: #10b981;
-            --error-red: #ef4444;
-            --warning-yellow: #f59e0b;
+            /* Primary Colors */
+            --primary-gold: #d4af37;
+            --primary-dark: #1a1a2e;
+            --primary-blue: #16213e;
+            --secondary-teal: #0f3460;
+            --accent-emerald: #00d4aa;
+            
+            /* Glass Morphism */
+            --glass-primary: rgba(255, 255, 255, 0.12);
+            --glass-secondary: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass-shadow: rgba(0, 0, 0, 0.25);
+            
+            /* Text Colors */
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --text-muted: rgba(255, 255, 255, 0.65);
+            --text-accent: var(--primary-gold);
+            
+            /* Status Colors */
+            --success-color: #00d4aa;
+            --warning-color: #ffb347;
+            --error-color: #ff6b6b;
+            --info-color: #4fc3f7;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 30%, #0f3460 70%, #533483 100%);
+            --gradient-accent: linear-gradient(135deg, var(--primary-gold) 0%, var(--accent-emerald) 100%);
+            --gradient-success: linear-gradient(135deg, var(--success-color) 0%, var(--info-color) 100%);
         }
 
         /* Reset and Base Styles */
@@ -28,17 +47,33 @@
         }
 
         body {
-            font-family: 'Inter', 'Roboto', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #1e40af 0%, #3730a3 25%, #581c87 50%, #7c2d12 75%, #dc2626 100%);
+            font-family: 'Inter', 'SF Pro Display', 'Roboto', system-ui, -apple-system, sans-serif;
+            background: var(--gradient-primary);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 2rem 1rem;
+            margin: 0;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Animated Background */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(0, 212, 170, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(79, 195, 247, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Animated Currency Background */
         body::before {
             content: '';
             position: fixed;
@@ -46,25 +81,44 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="grad1" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:%23ffffff;stop-opacity:0.1" /><stop offset="100%" style="stop-color:%23ffffff;stop-opacity:0" /></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23grad1)"><animate attributeName="cx" values="200;800;200" dur="20s" repeatCount="indefinite"/></circle><circle cx="800" cy="400" r="150" fill="url(%23grad1)"><animate attributeName="cx" values="800;200;800" dur="25s" repeatCount="indefinite"/></circle><circle cx="500" cy="700" r="120" fill="url(%23grad1)"><animate attributeName="cy" values="700;100;700" dur="30s" repeatCount="indefinite"/></circle></svg>') center/cover;
-            opacity: 0.3;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="currencyGlow" cx="50%" cy="50%" r="40%"><stop offset="0%" style="stop-color:%23ffd700;stop-opacity:0.15" /><stop offset="100%" style="stop-color:%23ffd700;stop-opacity:0" /></radialGradient><filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g filter="url(%23glow)"><!-- Dollar Signs --><text x="150" y="150" font-size="40" fill="url(%23currencyGlow)" opacity="0.8">💲</text><text x="950" y="250" font-size="35" fill="url(%23currencyGlow)" opacity="0.6">💲</text><text x="300" y="600" font-size="45" fill="url(%23currencyGlow)" opacity="0.7">💲</text><!-- Euro Signs --><text x="800" y="120" font-size="38" fill="url(%23currencyGlow)" opacity="0.8">€</text><text x="200" y="450" font-size="42" fill="url(%23currencyGlow)" opacity="0.6">€</text><text x="1000" y="550" font-size="35" fill="url(%23currencyGlow)" opacity="0.7">€</text><!-- Pound Signs --><text x="500" y="200" font-size="36" fill="url(%23currencyGlow)" opacity="0.5">£</text><text x="100" y="700" font-size="40" fill="url(%23currencyGlow)" opacity="0.8">£</text><text x="700" y="650" font-size="38" fill="url(%23currencyGlow)" opacity="0.6">£</text><!-- Yen Signs --><text x="600" y="100" font-size="44" fill="url(%23currencyGlow)" opacity="0.7">¥</text><text x="400" y="750" font-size="36" fill="url(%23currencyGlow)" opacity="0.5">¥</text><text x="850" y="400" font-size="40" fill="url(%23currencyGlow)" opacity="0.8">¥</text></g><animateTransform attributeName="transform" type="rotate" values="0 600 400;360 600 400" dur="180s" repeatCount="indefinite"/></svg>') center/cover;
+            opacity: 0.4;
             z-index: -1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-10px) scale(1.02); }
         }
 
         /* Main Container */
         .converter-container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 25px;
-            padding: 3rem 2.5rem;
-            max-width: 500px;
-            width: 90%;
+            background: var(--glass-primary);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 2px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 3.5rem 3rem 2.5rem;
+            max-width: 520px;
+            width: 100%;
             box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+                0 32px 64px var(--glass-shadow),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
             position: relative;
-            animation: slideInUp 0.8s ease-out;
+            animation: slideInUp 1s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+
+        .converter-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
         }
 
         @keyframes slideInUp {
@@ -81,95 +135,175 @@
         /* Header */
         .header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .header::before {
+            content: '💱';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            animation: bounce 2s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
         }
 
         .title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--text-white) 0%, var(--accent-cyan) 100%);
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: var(--gradient-accent);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 0.5rem;
-            letter-spacing: -1px;
+            margin-bottom: 1rem;
+            letter-spacing: -1.5px;
+            text-align: center;
+            margin-top: 1.5rem;
+            line-height: 1.2;
         }
 
         .subtitle {
-            color: var(--text-gray);
+            color: var(--text-secondary);
             font-size: 1.1rem;
-            font-weight: 300;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle-detail {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 400;
+            text-align: center;
+            opacity: 0.8;
         }
 
         /* Currency Selection */
         .currency-section {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.75rem;
+            position: relative;
         }
 
         .currency-label {
-            display: block;
-            color: var(--text-white);
-            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            color: var(--text-primary);
+            font-size: 1rem;
             font-weight: 600;
             margin-bottom: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        .currency-label::before {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+        }
+
+        .currency-label.from::before {
+            content: '💳';
+        }
+
+        .currency-label.to::before {
+            content: '🎯';
+        }
+
+        .currency-label.amount::before {
+            content: '�';
         }
 
         .currency-select {
             width: 100%;
             padding: 1rem 1.25rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            color: var(--text-white);
+            background: var(--glass-secondary);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1.5px solid var(--glass-border);
+            border-radius: 16px;
+            color: var(--text-primary);
             font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3e%3cpath stroke='%23d4af37' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3e%3c/svg%3e");
             background-position: right 1rem center;
             background-repeat: no-repeat;
             background-size: 1.5rem;
             padding-right: 3.5rem;
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .currency-select:hover {
+            border-color: var(--primary-gold);
+            background: var(--glass-primary);
+            transform: translateY(-1px);
+            box-shadow: 
+                0 8px 24px rgba(0, 0, 0, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         .currency-select:focus {
             outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--primary-gold);
+            box-shadow: 
+                0 0 0 3px rgba(212, 175, 55, 0.25),
+                0 8px 24px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            background: var(--glass-primary);
         }
 
         .currency-select option {
-            background: #1f2937;
-            color: white;
-            padding: 0.5rem;
+            background: var(--primary-dark);
+            color: var(--text-primary);
+            padding: 0.75rem;
+            font-weight: 500;
+            border: none;
+        }
+
+        .currency-select option:hover,
+        .currency-select option:checked {
+            background: var(--secondary-teal);
+            color: var(--primary-gold);
         }
 
         /* Switch Button */
         .switch-container {
             display: flex;
             justify-content: center;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
+            position: relative;
         }
 
         .switch-btn {
-            width: 60px;
-            height: 60px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-purple) 100%);
-            border: 3px solid var(--glass-border);
-            color: var(--text-white);
+            background: var(--gradient-accent);
+            border: 2px solid var(--glass-border);
+            color: var(--primary-dark);
             font-size: 1.5rem;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 
+                0 12px 28px rgba(0, 0, 0, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
             position: relative;
             overflow: hidden;
         }
@@ -187,11 +321,28 @@
 
         .switch-btn:hover {
             transform: rotate(180deg) scale(1.1);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            box-shadow: 
+                0 16px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
         .switch-btn:active {
             transform: rotate(180deg) scale(0.95);
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.2),
+                inset 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .switch-btn::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         /* Amount Section */
@@ -201,70 +352,111 @@
 
         .amount-input {
             width: 100%;
-            padding: 1.25rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            color: var(--text-white);
+            padding: 1.25rem 1.5rem;
+            background: var(--glass-secondary);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1.5px solid var(--glass-border);
+            border-radius: 16px;
+            color: var(--text-primary);
             font-size: 1.2rem;
-            font-weight: 500;
+            font-weight: 600;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .amount-input:hover {
+            border-color: var(--primary-gold);
+            background: var(--glass-primary);
+            transform: translateY(-1px);
+            box-shadow: 
+                0 8px 24px rgba(0, 0, 0, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         .amount-input:focus {
             outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--primary-gold);
+            box-shadow: 
+                0 0 0 3px rgba(212, 175, 55, 0.25),
+                0 8px 24px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            background: var(--glass-primary);
         }
 
         .amount-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--text-muted);
+            font-weight: 400;
         }
 
         /* Convert Button */
         .convert-btn {
             width: 100%;
-            padding: 1.25rem;
-            background: linear-gradient(135deg, var(--success-green) 0%, var(--accent-cyan) 100%);
-            border: none;
-            border-radius: 15px;
-            color: var(--text-white);
-            font-size: 1.2rem;
-            font-weight: 600;
+            padding: 1.25rem 2rem;
+            background: var(--gradient-success);
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
             margin-bottom: 2rem;
+            box-shadow: 
+                0 8px 24px rgba(0, 212, 170, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .convert-btn::before {
+            content: '🚀';
+            position: absolute;
+            top: 50%;
+            left: -40px;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            opacity: 0;
+        }
+
+        .convert-btn::after {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s ease;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.8s ease;
         }
 
         .convert-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+            box-shadow: 
+                0 12px 32px rgba(0, 212, 170, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
         .convert-btn:hover::before {
+            left: calc(100% + 20px);
+            opacity: 1;
+        }
+
+        .convert-btn:hover::after {
             left: 100%;
         }
 
         .convert-btn:active {
             transform: translateY(0);
+            box-shadow: 
+                0 4px 16px rgba(0, 212, 170, 0.2),
+                inset 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .convert-btn:disabled {
@@ -292,38 +484,71 @@
         /* Result Section */
         .result-section {
             text-align: center;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            background: var(--glass-secondary);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1.5px solid var(--glass-border);
+            border-radius: 24px;
             margin-bottom: 1.5rem;
-            min-height: 120px;
+            min-height: 140px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             transition: all 0.3s ease;
+            box-shadow: 
+                0 12px 32px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+            opacity: 0.6;
         }
 
         .result-amount {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-white);
-            margin-bottom: 0.5rem;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1;
         }
 
         .result-text {
-            color: var(--text-gray);
+            color: var(--text-secondary);
             font-size: 1rem;
-            font-weight: 400;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 1;
         }
 
         .exchange-rate {
-            color: var(--accent-cyan);
+            color: var(--text-accent);
             font-size: 0.9rem;
+            font-weight: 600;
             margin-top: 0.5rem;
-            opacity: 0.8;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            background: var(--glass-primary);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            z-index: 1;
+            display: inline-block;
         }
 
         /* Error and Success States */
@@ -357,34 +582,100 @@
         /* Footer */
         .footer {
             text-align: center;
-            color: var(--text-gray);
+            color: var(--text-muted);
             font-size: 0.85rem;
-            opacity: 0.7;
+            line-height: 1.5;
+            padding: 1rem;
+            margin-top: 0.5rem;
         }
 
         .footer a {
-            color: var(--accent-cyan);
+            color: var(--text-accent);
             text-decoration: none;
-            transition: color 0.3s ease;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .footer a::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary-gold);
+            transition: width 0.3s ease;
         }
 
         .footer a:hover {
-            color: var(--text-white);
+            color: var(--text-primary);
+        }
+
+        .footer a:hover::after {
+            width: 100%;
+        }
+
+        .footer strong {
+            color: var(--text-accent);
+            font-weight: 600;
         }
 
         /* Responsive Design */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
             .converter-container {
-                padding: 2rem 1.5rem;
-                margin: 1rem;
+                padding: 2.5rem 2rem;
+                max-width: 100%;
             }
 
             .title {
-                font-size: 2rem;
+                font-size: 2.2rem;
+                letter-spacing: -1px;
             }
 
             .result-amount {
-                font-size: 2rem;
+                font-size: 2.2rem;
+            }
+
+            .currency-select,
+            .amount-input {
+                padding: 1rem;
+                font-size: 0.95rem;
+            }
+
+            .convert-btn {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            .switch-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .converter-container {
+                padding: 2rem 1.5rem;
+                border-radius: 24px;
+            }
+
+            .title {
+                font-size: 1.8rem;
+            }
+
+            .result-amount {
+                font-size: 1.8rem;
+            }
+
+            .footer {
+                font-size: 0.8rem;
+                line-height: 1.4;
             }
         }
 
@@ -398,8 +689,9 @@
     <div class="converter-container">
         <!-- Header -->
         <div class="header">
-            <h1 class="title">Currency Converter</h1>
-            <p class="subtitle">Real-time exchange rates powered by ExchangeRate API</p>
+            <h1 class="title">💱 Currency Exchange Pro</h1>
+            <p class="subtitle">⚡ Real-time Global Exchange Rates</p>
+            <p class="subtitle-detail">🌍 Powered by ExchangeRate API • 170+ Currencies</p>
         </div>
 
         <!-- Error Message -->
@@ -407,48 +699,50 @@
 
         <!-- From Currency -->
         <div class="currency-section">
-            <label for="fromCurrency" class="currency-label">From:</label>
+            <label for="fromCurrency" class="currency-label from">From Currency:</label>
             <select id="fromCurrency" class="currency-select">
-                <option value="">Loading currencies...</option>
+                <option value="">🔄 Loading global currencies...</option>
             </select>
         </div>
 
         <!-- Switch Button -->
         <div class="switch-container">
-            <button id="switchBtn" class="switch-btn" title="Switch currencies">
+            <button id="switchBtn" class="switch-btn" title="🔄 Switch currencies instantly">
                 <i class="fas fa-exchange-alt"></i>
             </button>
         </div>
 
         <!-- To Currency -->
         <div class="currency-section">
-            <label for="toCurrency" class="currency-label">To:</label>
+            <label for="toCurrency" class="currency-label to">To Currency:</label>
             <select id="toCurrency" class="currency-select">
-                <option value="">Loading currencies...</option>
+                <option value="">🔄 Loading global currencies...</option>
             </select>
         </div>
 
         <!-- Amount Input -->
         <div class="amount-section">
-            <label for="amount" class="currency-label">Amount:</label>
-            <input type="number" id="amount" class="amount-input" placeholder="Enter amount" min="0" step="0.01" value="1">
+            <label for="amount" class="currency-label amount">Enter Amount:</label>
+            <input type="number" id="amount" class="amount-input" placeholder="💰 Enter amount to convert" min="0" step="0.01" value="100">
         </div>
 
         <!-- Convert Button -->
         <button id="convertBtn" class="convert-btn">
-            <span id="convertText">Convert</span>
+            <span id="convertText">⚡ Convert Now</span>
         </button>
 
         <!-- Result Section -->
         <div id="resultSection" class="result-section">
-            <div class="result-amount" id="resultAmount">---</div>
-            <div class="result-text" id="resultText">Enter amount and select currencies</div>
-            <div class="exchange-rate" id="exchangeRate"></div>
+            <div class="result-amount" id="resultAmount">💎 ---</div>
+            <div class="result-text" id="resultText">🎯 Select currencies and amount to get started</div>
+            <div class="exchange-rate" id="exchangeRate">📊 Exchange rate will appear here</div>
         </div>
 
         <!-- Footer -->
         <div class="footer">
-            <p>Powered by <a href="https://www.exchangerate-api.com/" target="_blank">ExchangeRate API</a></p>
+            <p>🚀 Powered by <a href="https://www.exchangerate-api.com/" target="_blank">ExchangeRate API</a> | 
+            ⚡ Built with Modern JavaScript | 
+            💡 Created by <strong>Abdessamad Bourkibate</strong></p>
         </div>
     </div>
 

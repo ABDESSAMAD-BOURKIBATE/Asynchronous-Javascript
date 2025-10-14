@@ -4,7 +4,7 @@
 class CurrencyConverter {
     constructor() {
         // ExchangeRate API Configuration
-        this.apiKey = '85b5e9c85317e47b0b5a5e8d'; // Free tier API key
+        this.apiKey = 'f2c413786f8806caf7bdf1f5'; // Updated API key
         this.baseURL = 'https://v6.exchangerate-api.com/v6';
         
         // DOM Elements
@@ -43,8 +43,8 @@ class CurrencyConverter {
         try {
             this.showLoading(true);
             
-            // Fetch supported currencies from ExchangeRate API
-            const response = await fetch(`${this.baseURL}/${this.apiKey}/codes`);
+            // Fetch USD rates to get available currencies
+            const response = await fetch(`${this.baseURL}/${this.apiKey}/latest/USD`);
             
             if (!response.ok) {
                 throw new Error(`API Error: ${response.status} - ${response.statusText}`);
@@ -53,13 +53,18 @@ class CurrencyConverter {
             const data = await response.json();
             
             if (data.result !== 'success') {
-                throw new Error(data['error-type'] || 'Failed to fetch currency codes');
+                throw new Error(data['error-type'] || 'Failed to fetch currency data');
             }
 
-            // Store supported currencies
+            // Store supported currencies from conversion rates
             this.supportedCurrencies = {};
-            data.supported_codes.forEach(([code, name]) => {
-                this.supportedCurrencies[code] = name;
+            
+            // Add USD as base currency
+            this.supportedCurrencies['USD'] = 'United States Dollar';
+            
+            // Add all currencies from conversion rates
+            Object.keys(data.conversion_rates).forEach(code => {
+                this.supportedCurrencies[code] = this.getCurrencyName(code);
             });
 
             // Populate dropdown menus
@@ -169,8 +174,8 @@ class CurrencyConverter {
             this.hideError();
             this.showLoading(true);
 
-            // Fetch conversion rate with amount
-            const response = await fetch(`${this.baseURL}/${this.apiKey}/pair/${fromCode}/${toCode}/${amount}`);
+            // Fetch conversion rates for the base currency
+            const response = await fetch(`${this.baseURL}/${this.apiKey}/latest/${fromCode}`);
 
             if (!response.ok) {
                 throw new Error(`API Error: ${response.status} - ${response.statusText}`);
@@ -182,8 +187,16 @@ class CurrencyConverter {
                 throw new Error(data['error-type'] || 'Conversion failed');
             }
 
+            // Calculate conversion
+            const conversionRate = data.conversion_rates[toCode];
+            if (!conversionRate) {
+                throw new Error(`Conversion rate for ${toCode} not found`);
+            }
+
+            const convertedAmount = amount * conversionRate;
+
             // Display result
-            this.displayResult(data.conversion_result, fromCode, toCode, data.conversion_rate);
+            this.displayResult(convertedAmount, fromCode, toCode, conversionRate);
             
             // Add success animation
             this.resultSection.classList.add('success-animation');
@@ -262,6 +275,176 @@ class CurrencyConverter {
 
     hideError() {
         this.errorMessage.classList.add('hidden');
+    }
+
+    getCurrencyName(code) {
+        const currencyNames = {
+            'AED': 'United Arab Emirates Dirham',
+            'AFN': 'Afghan Afghani',
+            'ALL': 'Albanian Lek',
+            'AMD': 'Armenian Dram',
+            'ANG': 'Netherlands Antillean Guilder',
+            'AOA': 'Angolan Kwanza',
+            'ARS': 'Argentine Peso',
+            'AUD': 'Australian Dollar',
+            'AWG': 'Aruban Florin',
+            'AZN': 'Azerbaijani Manat',
+            'BAM': 'Bosnia-Herzegovina Convertible Mark',
+            'BBD': 'Barbadian Dollar',
+            'BDT': 'Bangladeshi Taka',
+            'BGN': 'Bulgarian Lev',
+            'BHD': 'Bahraini Dinar',
+            'BIF': 'Burundian Franc',
+            'BMD': 'Bermudan Dollar',
+            'BND': 'Brunei Dollar',
+            'BOB': 'Bolivian Boliviano',
+            'BRL': 'Brazilian Real',
+            'BSD': 'Bahamian Dollar',
+            'BTN': 'Bhutanese Ngultrum',
+            'BWP': 'Botswanan Pula',
+            'BYN': 'Belarusian Ruble',
+            'BZD': 'Belize Dollar',
+            'CAD': 'Canadian Dollar',
+            'CDF': 'Congolese Franc',
+            'CHF': 'Swiss Franc',
+            'CLP': 'Chilean Peso',
+            'CNY': 'Chinese Yuan',
+            'COP': 'Colombian Peso',
+            'CRC': 'Costa Rican Colón',
+            'CUP': 'Cuban Peso',
+            'CVE': 'Cape Verdean Escudo',
+            'CZK': 'Czech Republic Koruna',
+            'DJF': 'Djiboutian Franc',
+            'DKK': 'Danish Krone',
+            'DOP': 'Dominican Peso',
+            'DZD': 'Algerian Dinar',
+            'EGP': 'Egyptian Pound',
+            'ERN': 'Eritrean Nakfa',
+            'ETB': 'Ethiopian Birr',
+            'EUR': 'Euro',
+            'FJD': 'Fijian Dollar',
+            'FKP': 'Falkland Islands Pound',
+            'FOK': 'Faroese Króna',
+            'GBP': 'British Pound Sterling',
+            'GEL': 'Georgian Lari',
+            'GGP': 'Guernsey Pound',
+            'GHS': 'Ghanaian Cedi',
+            'GIP': 'Gibraltar Pound',
+            'GMD': 'Gambian Dalasi',
+            'GNF': 'Guinean Franc',
+            'GTQ': 'Guatemalan Quetzal',
+            'GYD': 'Guyanaese Dollar',
+            'HKD': 'Hong Kong Dollar',
+            'HNL': 'Honduran Lempira',
+            'HRK': 'Croatian Kuna',
+            'HTG': 'Haitian Gourde',
+            'HUF': 'Hungarian Forint',
+            'IDR': 'Indonesian Rupiah',
+            'ILS': 'Israeli New Sheqel',
+            'IMP': 'Manx pound',
+            'INR': 'Indian Rupee',
+            'IQD': 'Iraqi Dinar',
+            'IRR': 'Iranian Rial',
+            'ISK': 'Icelandic Króna',
+            'JEP': 'Jersey Pound',
+            'JMD': 'Jamaican Dollar',
+            'JOD': 'Jordanian Dinar',
+            'JPY': 'Japanese Yen',
+            'KES': 'Kenyan Shilling',
+            'KGS': 'Kyrgystani Som',
+            'KHR': 'Cambodian Riel',
+            'KMF': 'Comorian Franc',
+            'KPW': 'North Korean Won',
+            'KRW': 'South Korean Won',
+            'KWD': 'Kuwaiti Dinar',
+            'KYD': 'Cayman Islands Dollar',
+            'KZT': 'Kazakhstani Tenge',
+            'LAK': 'Laotian Kip',
+            'LBP': 'Lebanese Pound',
+            'LKR': 'Sri Lankan Rupee',
+            'LRD': 'Liberian Dollar',
+            'LSL': 'Lesotho Loti',
+            'LYD': 'Libyan Dinar',
+            'MAD': 'Moroccan Dirham',
+            'MDL': 'Moldovan Leu',
+            'MGA': 'Malagasy Ariary',
+            'MKD': 'Macedonian Denar',
+            'MMK': 'Myanma Kyat',
+            'MNT': 'Mongolian Tugrik',
+            'MOP': 'Macanese Pataca',
+            'MRU': 'Mauritanian Ouguiya',
+            'MUR': 'Mauritian Rupee',
+            'MVR': 'Maldivian Rufiyaa',
+            'MWK': 'Malawian Kwacha',
+            'MXN': 'Mexican Peso',
+            'MYR': 'Malaysian Ringgit',
+            'MZN': 'Mozambican Metical',
+            'NAD': 'Namibian Dollar',
+            'NGN': 'Nigerian Naira',
+            'NIO': 'Nicaraguan Córdoba',
+            'NOK': 'Norwegian Krone',
+            'NPR': 'Nepalese Rupee',
+            'NZD': 'New Zealand Dollar',
+            'OMR': 'Omani Rial',
+            'PAB': 'Panamanian Balboa',
+            'PEN': 'Peruvian Nuevo Sol',
+            'PGK': 'Papua New Guinean Kina',
+            'PHP': 'Philippine Peso',
+            'PKR': 'Pakistani Rupee',
+            'PLN': 'Polish Zloty',
+            'PYG': 'Paraguayan Guarani',
+            'QAR': 'Qatari Rial',
+            'RON': 'Romanian Leu',
+            'RSD': 'Serbian Dinar',
+            'RUB': 'Russian Ruble',
+            'RWF': 'Rwandan Franc',
+            'SAR': 'Saudi Riyal',
+            'SBD': 'Solomon Islands Dollar',
+            'SCR': 'Seychellois Rupee',
+            'SDG': 'Sudanese Pound',
+            'SEK': 'Swedish Krona',
+            'SGD': 'Singapore Dollar',
+            'SHP': 'Saint Helena Pound',
+            'SLE': 'Sierra Leonean Leone',
+            'SLL': 'Sierra Leonean Leone (Old)',
+            'SOS': 'Somali Shilling',
+            'SRD': 'Surinamese Dollar',
+            'SSP': 'South Sudanese Pound',
+            'STN': 'São Tomé and Príncipe Dobra',
+            'SYP': 'Syrian Pound',
+            'SZL': 'Swazi Lilangeni',
+            'THB': 'Thai Baht',
+            'TJS': 'Tajikistani Somoni',
+            'TMT': 'Turkmenistani Manat',
+            'TND': 'Tunisian Dinar',
+            'TOP': 'Tongan Paʻanga',
+            'TRY': 'Turkish Lira',
+            'TTD': 'Trinidad and Tobago Dollar',
+            'TVD': 'Tuvaluan Dollar',
+            'TWD': 'New Taiwan Dollar',
+            'TZS': 'Tanzanian Shilling',
+            'UAH': 'Ukrainian Hryvnia',
+            'UGX': 'Ugandan Shilling',
+            'USD': 'United States Dollar',
+            'UYU': 'Uruguayan Peso',
+            'UZS': 'Uzbekistan Som',
+            'VED': 'Venezuelan Bolívar Soberano',
+            'VES': 'Venezuelan Bolívar',
+            'VND': 'Vietnamese Dong',
+            'VUV': 'Vanuatu Vatu',
+            'WST': 'Samoan Tala',
+            'XAF': 'CFA Franc BEAC',
+            'XCD': 'East Caribbean Dollar',
+            'XDR': 'Special Drawing Rights',
+            'XOF': 'CFA Franc BCEAO',
+            'XPF': 'CFP Franc',
+            'YER': 'Yemeni Rial',
+            'ZAR': 'South African Rand',
+            'ZMW': 'Zambian Kwacha',
+            'ZWL': 'Zimbabwean Dollar'
+        };
+        
+        return currencyNames[code] || code;
     }
 }
 
