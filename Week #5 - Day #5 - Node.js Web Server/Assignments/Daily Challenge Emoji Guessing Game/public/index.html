@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Emoji Guessing Game - Daily Challenge</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-emoji">🎯</span>
+                <div class="logo-text">
+                    <h1>Emoji Guessing Game</h1>
+                    <span class="subtitle">Daily Challenge</span>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="stat-item">
+                    <i class="fas fa-trophy"></i>
+                    <span id="current-score">0</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-clock"></i>
+                    <span id="game-timer">00:00</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span id="accuracy">0%</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-screen="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-tab" data-screen="game">
+                <i class="fas fa-gamepad"></i>
+                <span>Play</span>
+            </button>
+            <button class="nav-tab" data-screen="leaderboard">
+                <i class="fas fa-trophy"></i>
+                <span>Leaderboard</span>
+            </button>
+            <button class="nav-tab" data-screen="stats">
+                <i class="fas fa-chart-bar"></i>
+                <span>Statistics</span>
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Screen -->
+            <section id="home-screen" class="screen active">
+                <div class="welcome-section">
+                    <div class="welcome-header">
+                        <h2>Welcome to the Emoji Challenge! 🎉</h2>
+                        <p>Test your emoji knowledge and guess the correct names from multiple choices!</p>
+                    </div>
+
+                    <div class="game-setup">
+                        <h3><i class="fas fa-cog"></i> Game Configuration</h3>
+                        
+                        <form id="game-setup-form" class="setup-form">
+                            <div class="form-row">
+                                <div class="input-group">
+                                    <label for="player-name">
+                                        <i class="fas fa-user"></i>
+                                        Player Name
+                                    </label>
+                                    <input type="text" id="player-name" name="playerName" 
+                                           placeholder="Enter your name..." required maxlength="20">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="input-group">
+                                    <label for="category">
+                                        <i class="fas fa-tags"></i>
+                                        Category
+                                    </label>
+                                    <select id="category" name="category">
+                                        <option value="all">All Categories</option>
+                                        <option value="faces">Faces & Emotions 😀</option>
+                                        <option value="animals">Animals 🐶</option>
+                                        <option value="food">Food & Drink 🍎</option>
+                                        <option value="sports">Sports & Activities ⚽</option>
+                                        <option value="objects">Objects & Items 🎮</option>
+                                        <option value="nature">Nature & Weather 🌞</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="difficulty">
+                                        <i class="fas fa-star"></i>
+                                        Difficulty
+                                    </label>
+                                    <select id="difficulty" name="difficulty">
+                                        <option value="mixed">Mixed Difficulty</option>
+                                        <option value="easy">Easy 🟢</option>
+                                        <option value="medium">Medium 🟡</option>
+                                        <option value="hard">Hard 🔴</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="input-group">
+                                    <label for="timer-mode">
+                                        <i class="fas fa-stopwatch"></i>
+                                        Timer Mode
+                                    </label>
+                                    <select id="timer-mode" name="timerMode">
+                                        <option value="30">30 seconds per question</option>
+                                        <option value="20">20 seconds per question</option>
+                                        <option value="15">15 seconds per question</option>
+                                        <option value="unlimited">No time limit</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="questions-count">
+                                        <i class="fas fa-list-ol"></i>
+                                        Number of Questions
+                                    </label>
+                                    <select id="questions-count" name="questionsCount">
+                                        <option value="10">10 Questions</option>
+                                        <option value="15">15 Questions</option>
+                                        <option value="20">20 Questions</option>
+                                        <option value="unlimited">Unlimited</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="start-game-btn" id="start-game-btn">
+                                <i class="fas fa-play"></i>
+                                Start Playing
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="features-preview">
+                        <h3><i class="fas fa-star"></i> Game Features</h3>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <i class="fas fa-brain"></i>
+                                <h4>200+ Emojis</h4>
+                                <p>Comprehensive database across 6 categories</p>
+                            </div>
+                            <div class="feature-card">
+                                <i class="fas fa-chart-line"></i>
+                                <h4>Smart Scoring</h4>
+                                <p>Time bonuses and difficulty multipliers</p>
+                            </div>
+                            <div class="feature-card">
+                                <i class="fas fa-lightbulb"></i>
+                                <h4>Hints Available</h4>
+                                <p>Get helpful clues when you need them</p>
+                            </div>
+                            <div class="feature-card">
+                                <i class="fas fa-trophy"></i>
+                                <h4>Global Leaderboard</h4>
+                                <p>Compete with players worldwide</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Game Screen -->
+            <section id="game-screen" class="screen">
+                <div class="game-container">
+                    <!-- Game Header -->
+                    <div class="game-header">
+                        <div class="game-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <span class="progress-text" id="progress-text">Question 1 of 10</span>
+                        </div>
+                        
+                        <div class="game-info">
+                            <div class="question-timer" id="question-timer">
+                                <i class="fas fa-clock"></i>
+                                <span id="timer-display">30</span>
+                            </div>
+                            <div class="game-score">
+                                <i class="fas fa-star"></i>
+                                <span id="live-score">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question Card -->
+                    <div class="question-card" id="question-card">
+                        <div class="question-header">
+                            <div class="question-meta">
+                                <span class="category-badge" id="question-category">Category</span>
+                                <span class="difficulty-badge" id="question-difficulty">Easy</span>
+                            </div>
+                            <button class="hint-btn" id="hint-btn">
+                                <i class="fas fa-lightbulb"></i>
+                                Hint
+                            </button>
+                        </div>
+
+                        <div class="emoji-display">
+                            <div class="emoji-container">
+                                <span class="emoji" id="current-emoji">🤔</span>
+                            </div>
+                            <p class="question-text">What is this emoji called?</p>
+                        </div>
+
+                        <form id="answer-form" class="answer-form">
+                            <div class="options-grid" id="options-grid">
+                                <!-- Options will be populated by JavaScript -->
+                            </div>
+                            
+                            <div class="game-controls">
+                                <button type="button" class="control-btn secondary" id="skip-btn">
+                                    <i class="fas fa-forward"></i>
+                                    Skip Question
+                                </button>
+                                <button type="submit" class="control-btn primary" id="submit-answer" disabled>
+                                    <i class="fas fa-check"></i>
+                                    Submit Answer
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Game Actions -->
+                    <div class="game-actions">
+                        <button class="action-btn" id="pause-game">
+                            <i class="fas fa-pause"></i>
+                            Pause Game
+                        </button>
+                        <button class="action-btn danger" id="end-game">
+                            <i class="fas fa-stop"></i>
+                            End Game
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Leaderboard Screen -->
+            <section id="leaderboard-screen" class="screen">
+                <div class="leaderboard-container">
+                    <div class="section-header">
+                        <h2><i class="fas fa-trophy"></i> Global Leaderboard</h2>
+                        <div class="leaderboard-filters">
+                            <select id="leaderboard-category">
+                                <option value="all">All Categories</option>
+                                <option value="faces">Faces & Emotions</option>
+                                <option value="animals">Animals</option>
+                                <option value="food">Food & Drink</option>
+                                <option value="sports">Sports & Activities</option>
+                                <option value="objects">Objects & Items</option>
+                                <option value="nature">Nature & Weather</option>
+                            </select>
+                            <select id="leaderboard-difficulty">
+                                <option value="all">All Difficulties</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                            <button id="refresh-leaderboard" class="refresh-btn">
+                                <i class="fas fa-sync-alt"></i>
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="leaderboard-content">
+                        <div class="leaderboard-list" id="leaderboard-list">
+                            <!-- Leaderboard entries will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics Screen -->
+            <section id="stats-screen" class="screen">
+                <div class="stats-container">
+                    <div class="section-header">
+                        <h2><i class="fas fa-chart-bar"></i> Game Statistics</h2>
+                        <button id="refresh-stats" class="refresh-btn">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh Stats
+                        </button>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-gamepad"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="total-games">0</h3>
+                                <p>Total Games Played</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="total-questions">0</h3>
+                                <p>Questions Answered</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="total-correct">0</h3>
+                                <p>Correct Answers</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="avg-accuracy">0%</h3>
+                                <p>Average Accuracy</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="avg-score">0</h3>
+                                <p>Average Score</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="best-score">0</h3>
+                                <p>Best Score</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-smile"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="total-emojis">0</h3>
+                                <p>Available Emojis</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="active-players">0</h3>
+                                <p>Active Players</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category-breakdown">
+                        <h3><i class="fas fa-chart-pie"></i> Category Breakdown</h3>
+                        <div class="category-stats" id="category-stats">
+                            <!-- Category statistics will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Results Modal -->
+        <div class="modal" id="results-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="results-title">Question Results</h3>
+                    <button class="modal-close" id="close-results">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="result-status" id="result-status">
+                        <i class="result-icon" id="result-icon"></i>
+                        <span class="result-text" id="result-text">Correct!</span>
+                    </div>
+                    <div class="result-details">
+                        <p class="correct-answer">
+                            <strong>Correct Answer:</strong>
+                            <span id="correct-answer-text">Answer</span>
+                        </p>
+                        <p class="points-earned">
+                            <strong>Points Earned:</strong>
+                            <span id="points-earned">+10</span>
+                        </p>
+                        <p class="explanation" id="explanation">
+                            Explanation text will appear here.
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn secondary" id="continue-game">
+                        <i class="fas fa-arrow-right"></i>
+                        Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Modal -->
+        <div class="modal" id="game-over-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-flag-checkered"></i> Game Complete!</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="final-score-display">
+                        <div class="score-circle">
+                            <span class="final-score" id="final-score-value">0</span>
+                            <small>Final Score</small>
+                        </div>
+                    </div>
+                    <div class="game-summary">
+                        <div class="summary-item">
+                            <i class="fas fa-question-circle"></i>
+                            <span class="summary-label">Questions</span>
+                            <span class="summary-value" id="summary-questions">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <i class="fas fa-check"></i>
+                            <span class="summary-label">Correct</span>
+                            <span class="summary-value" id="summary-correct">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <i class="fas fa-percentage"></i>
+                            <span class="summary-label">Accuracy</span>
+                            <span class="summary-value" id="summary-accuracy">0%</span>
+                        </div>
+                        <div class="summary-item">
+                            <i class="fas fa-trophy"></i>
+                            <span class="summary-label">Rank</span>
+                            <span class="summary-value" id="summary-rank">#-</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn secondary" id="view-leaderboard">
+                        <i class="fas fa-trophy"></i>
+                        View Leaderboard
+                    </button>
+                    <button class="btn primary" id="play-again">
+                        <i class="fas fa-play"></i>
+                        Play Again
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hint Modal -->
+        <div class="modal" id="hint-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-lightbulb"></i> Hint</h3>
+                    <button class="modal-close" id="close-hint">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="hint-content">
+                        <div class="hint-emoji" id="hint-emoji">🤔</div>
+                        <p class="hint-text" id="hint-text">
+                            Think about what this emoji represents!
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn primary" id="close-hint-btn">
+                        <i class="fas fa-check"></i>
+                        Got it!
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loading-overlay">
+            <div class="loading-content">
+                <div class="spinner">
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                </div>
+                <p class="loading-text" id="loading-text">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toast-container">
+            <!-- Toast notifications will be added here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/app.js"></script>
+</body>
+</html>

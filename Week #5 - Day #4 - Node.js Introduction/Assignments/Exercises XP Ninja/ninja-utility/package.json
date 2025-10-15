@@ -1,0 +1,38 @@
+{
+  "name": "ninja-utility",
+  "version": "1.0.0",
+  "description": "Advanced command-line utility with multiple commands using Node.js modules",
+  "main": "index.js",
+  "bin": {
+    "ninja": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "greet": "node index.js greet",
+    "fetch": "node index.js fetch",
+    "read": "node index.js read",
+    "help": "node index.js --help",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cli",
+    "command-line",
+    "utility",
+    "ninja",
+    "nodejs",
+    "commander",
+    "chalk",
+    "axios"
+  ],
+  "author": "Abdessamad Bourkibate",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.5.0",
+    "chalk": "^4.1.2",
+    "commander": "^9.4.1",
+    "fs-extra": "^11.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
